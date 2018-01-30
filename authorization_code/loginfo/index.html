@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Log In Test App</title>
+</head>
+<body>
+<div id = "login">
+    <input id = "username">
+    <button class = "btn btn-default" id="submit">Log In</button>
+    <p id = "loginoutput"></p>
+
+    <input id = "newitem">
+    <button class = "btn btn-default" id="addtolist">Add to List</button>
+    <p id = "listoutput"></p>
+</div>
+
+<script src="http://code.jquery.com/jquery-1.10.1.min.js"></script>
+<script>
+    (function(){
+        document.getElementById("submit").addEventListener('click',function(){
+            console.log("Attempting to retrieve username");
+            var usertext = document.getElementById("username").value;
+            if(usertext == "")
+                return;
+
+            $.ajax({
+                url:'/login',
+                data:{
+                    'username': usertext
+                }
+            }).done(function(data){
+                console.log("finished logging in.");
+                document.getElementById("loginoutput").innerHTML = "username: " + usertext;
+                var outstring = "";
+                if(data.todo_list.length != 0) {
+
+                    for(x in data.todo_list)
+                        outstring += data.todo_list[x] + '\n';
+                    document.getElementById("listoutput").innerHTML = outstring;
+                }
+            });
+        },false);
+
+        document.getElementById("addtolist").addEventListener('click',function(){
+            console.log("Attempting to add to list");
+            var newItem = document.getElementById("newitem").value;
+            var userlogin = document.getElementById("username").value;
+            if(newItem == "") {
+                document.getElementById("listoutput").innerHTML = "new item is empty";
+                return;
+            }
+            if(document.getElementById("loginoutput") == "") {
+                document.getElementById("listoutput").innerHTML = "You must be logged in";
+                return;
+            }
+            $.ajax({
+                url: '/add_to_list',
+                data:{
+                    'username': userlogin,
+                    'newItem': newItem
+                }
+            }).done(function(data){
+                console.log("finished adding to server list");
+                if(data.todo_list.length != 0) {
+                    var outstring = "";
+                    for(x in data.todo_list)
+                        outstring += data.todo_list[x] + '\n';
+                    document.getElementById("listoutput").innerHTML = outstring;
+                }
+            });
+        },false);
+
+    })();
+</script>
+
+</body>
+</html>
