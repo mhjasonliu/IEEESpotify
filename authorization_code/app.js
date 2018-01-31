@@ -210,7 +210,7 @@ app.post('/add_new_track', function(req,res){
             var trackObj = {};
             trackObj.uri = newTrack;
 
-            if(doc.listOfTracks.find(function(x){return x.track.uri == newTrack.uri})=== undefined)
+            if(doc.listOfTracks.find(function(x){return x.track.uri == newTrack})=== undefined)
                 doc.listOfTracks.push({track: trackObj, listOfStrings: []});
 
             doc.save(function(err){
