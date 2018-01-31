@@ -138,7 +138,7 @@
                       console.log("finished logging in to database");
                       var outstring = "Your Tracks:";
                       data.trackList.forEach(function(x) {
-                          outstring += x.track.name + "<br>";
+                          outstring += x.track.uri + "<br>";
                       });
                       document.getElementById("listoutput").innerHTML = outstring;
                   });
@@ -168,35 +168,32 @@
             });
           }, false);
 
-          document.getElementById('addtolist').addEventListener('click', function() {
-              console.log("Attempting to add new track to list");
-              var newtrack = document.getElementById("newtrack").value;
-              if(newtrack == "") {
-                  document.getElementById("listoutput").innerHTML = "new track is empty";
-                  return;
-              }
-              $.ajax({
-                  url:'/add_new_track',
-                  data: {
-                      'username': display_name,
-                      'userID': userid,
-                      'newTrack': newtrack,
-                      'access_token': access_token
-                  }
-              }).done(function(data){
-                  console.log("finished adding track to database");
-                  if(data.err) {
-                      document.getElementById("listoutput").innerHTML = data.err;
-                      return;
-                  }
-                  console.log(data);
-                  var outstring = "Your Tracks:";
-                  data.trackList.forEach(function(x) {
-                      outstring += x.track.name + "<br>";
-                  });
-                  document.getElementById("listoutput").innerHTML = outstring;
-              });
-          },false);
+        document.getElementById('addtolist').addEventListener('click', function() {
+            console.log("Attempting to add new track to list");
+            var newtrack = document.getElementById("newtrack").value;
+            if(newtrack == "") {
+                document.getElementById("listoutput").innerHTML = "new track is empty";
+                return;
+            }
+            $.post('/add_new_track', {
+                    'username': display_name,
+                    'userID': userid,
+                    'newTrack': newtrack,
+                    'access_token': access_token
+            }).done(function(data){
+                console.log("finished adding track to database");
+                if(data.err) {
+                    document.getElementById("listoutput").innerHTML = data.err;
+                    return;
+                }
+                console.log(data);
+                var outstring = "Your Tracks:";
+                data.trackList.forEach(function(x) {
+                    outstring += x.track.uri + "<br>";
+                });
+                document.getElementById("listoutput").innerHTML = outstring;
+            });
+        },false);
 
           document.getElementById("associate-word").addEventListener('click',function(){
               console.log("Attempting to associate current track with new word");
@@ -206,18 +203,19 @@
                   document.getElementById("wordoutput").innerHTML = "new word is empty";
                   return;
               }
-              $.ajax({
-                  url:'/associate_word',
-                  data: {
+              $.post('/associate_word', {
                       'username': display_name,
                       'userID': userid,
                       'current_track_uri': current_track_uri,
                       'new_word': new_word,
                       'access_token': access_token
-                  }
               }).done(function(data) {
                   console.log("finished associating word in database");
-                  document.getElementById("wordoutput").innerHTML = data.listOfStrings;
+                  if(data.listOfStrings)
+                      document.getElementById("wordoutput").innerHTML = data.listOfStrings;
+                  else
+                      document.getElementById("wordoutput").innerHTML = data.err;
+
               });
           });
 

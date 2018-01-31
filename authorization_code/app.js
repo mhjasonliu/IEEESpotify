@@ -188,39 +188,14 @@ app.get('/dblogin', function(req,res){
 
 });
 
-app.get('/add_new_track', function(req,res){
+app.post('/add_new_track', function(req,res){
 
-    var newTrack = req.query.newTrack;
-    var userlogin = req.query.username;
-    var userID = req.query.userID;
-    var access_token = req.query.access_token;
+    var newTrack = req.body.newTrack;
+    var userlogin = req.body.username;
+    var userID = req.body.userID;
+    var access_token = req.body.access_token;
 
-    var options = {
-        url: 'https://api.spotify.com/v1/tracks/'+newTrack,
-        headers: { 'Authorization': 'Bearer ' + access_token },
-        json: true
-    };
     console.log("Attempting to add track");
-
-    request.get(options, function(error, response, body) {
-        if(error) {
-            res.send({
-                'err': ['error occured in getting track']
-            });
-            return;
-
-        }
-        if(body.hasOwnProperty("error")) {
-
-            res.send({
-                'err': [body.error.message]
-            });
-            return;
-
-        }
-        console.log("Track was obtained");
-        console.log(body);
-        newTrack = body;
 
         DBEntry.findOne({username:userlogin, userID: userID},function(err, doc){
             if(err) return console.log(err);
@@ -232,8 +207,11 @@ app.get('/add_new_track', function(req,res){
                 return;
             }
 
+            var trackObj = {};
+            trackObj.uri = newTrack;
+
             if(doc.listOfTracks.find(function(x){return x.track.uri == newTrack.uri})=== undefined)
-                doc.listOfTracks.push({track: newTrack, listOfStrings: []});
+                doc.listOfTracks.push({track: trackObj, listOfStrings: []});
 
             doc.save(function(err){
                 if(err) return console.log(err);
@@ -243,33 +221,33 @@ app.get('/add_new_track', function(req,res){
                 'trackList': doc.listOfTracks
             });
         });
-    });
 
 });
 
-app.get('/associate_word',function(req,res){
-    var userlogin = req.query.username,
-        userID = req.query.userID,
-        trackuri = req.query.current_track_uri,
-        new_word = req.query.new_word,
-        access_token = req.query.access_token;
+app.post('/associate_word',function(req,res){
+    var userlogin = req.body.username,
+        userID = req.body.userID,
+        trackuri = req.body.current_track_uri,
+        new_word = req.body.new_word,
+        access_token = req.body.access_token;
 
     DBEntry.findOne({username:userlogin, userID: userID},function(err, doc){
         if(err) return console.log(err);
 
         if(doc === null) {
             res.send({
-                'listOfStrings': ["You must be logged in to access."]
+                'err': "You must be logged in to access."
             });
             return;
         }
 
         var idx = doc.listOfTracks.findIndex(function(element) {
-            console.log(element.track.uri + " " + trackuri);
+            //console.log(element.track.uri + " " + trackuri);
             return element.track.uri == trackuri});
         if(idx != -1)
             doc.listOfTracks[idx].listOfStrings.push(new_word);
-        console.log(idx);
+        else
+            res.send({err: "track not found in database."});
 
         doc.save(function(err){
             if(err)
