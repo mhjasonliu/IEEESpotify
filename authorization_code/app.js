@@ -11,6 +11,9 @@ var express = require('express'); // Express web server framework
 var request = require('request'); // "Request" library
 var querystring = require('querystring');
 var cookieParser = require('cookie-parser');
+var mongoose = require('mongoose');
+var bodyParser = require('body-parser');
+
 
 var client_id = '626fb1f9e4c14a5897b43fd1e674b186'; // Your client id
 var client_secret = '6a2692aed01c4330955285e003dd2e1c'; // Your secret
@@ -37,6 +40,8 @@ var app = express();
 
 app.use(express.static(__dirname + '/public'))
    .use(cookieParser());
+app.use(bodyParser.json()); // support json encoded bodies
+app.use(bodyParser.urlencoded({ extended: true })); //support encoded bodies
 
 app.get('/login', function(req, res) {
 
@@ -142,69 +147,21 @@ app.get('/refresh_token', function(req, res) {
   });
 });
 
-//currently not used in app, but may be useful later
-app.get('/get_track',function(req,res) {
 
-  var access_token = req.query.access_token;
 
-  var options = {
-      url: 'https://api.spotify.com/v1/tracks/5nq1uTNIR1cBR72T87viS0',
-      headers: { 'Authorization': 'Bearer ' + access_token },
-      json: true
-  };
-
-  console.log("making request");
-  request.get(options, function(error, response, body) {
-    console.log("Got track!");
-    console.log(body.name);
-    res.send({
-            'track': body
-    }
-    );
-  });
-
-});
-
-var mongoose = require('mongoose');
 var hasher = require("./hasher");
+var ie3database = require("./db");
 
-var username = "ieeejasonliu";
-var pword = "kappa123";
-var uri = "mongodb://"+username+":"+pword+"@ds121896.mlab.com:21896/ieeespotify";
-
-mongoose.connect(uri);
+mongoose.connect(ie3database.uri);
 
 var db = mongoose.connection;
-var Schema = mongoose.Schema;
+
 db.on('error', console.error.bind(console,'connection error:'));
 db.once('open', function() {
-    console.log('connected to ' + username);
+    console.log('database connection successful ');
 });
 
-var trackSchema = new Schema({
-    track: Object,
-    listOfStrings: [String]
-});
-
-var dbEntrySchema = new Schema({
-    username: String,
-    userID: String,
-    salt: String,
-    listOfTracks: [trackSchema]
-});
-var DBEntry = mongoose.model('DBEntry',dbEntrySchema);
-
-function addNewEntry(newusername,newuserID) {
-    var newEntry = new DBEntry();
-    newEntry.username = newusername;
-    newEntry.userID = newuserID;
-    newEntry.salt = hasher.genString(16);
-    newEntry.listOfTracks = [];
-    newEntry.save(function(err){
-        if(err) return console.log(err);
-    });
-    return newEntry;
-}
+var DBEntry = ie3database.DBEntry;
 
 app.get('/dblogin', function(req,res){
     var userlogin = req.query.username;
@@ -215,7 +172,7 @@ app.get('/dblogin', function(req,res){
         if(err) return console.log(err);
         if(doc.length == 0) {
             console.log("user does not currently exist. attempting to create");
-            var newEntry = addNewEntry(userlogin,userID);
+            var newEntry = ie3database.addNewEntry(userlogin,userID);
             res.send({
                 'trackList' : newEntry.listOfTracks
             });
@@ -232,6 +189,7 @@ app.get('/dblogin', function(req,res){
 });
 
 app.get('/add_new_track', function(req,res){
+
     var newTrack = req.query.newTrack;
     var userlogin = req.query.username;
     var userID = req.query.userID;
@@ -242,6 +200,7 @@ app.get('/add_new_track', function(req,res){
         headers: { 'Authorization': 'Bearer ' + access_token },
         json: true
     };
+    console.log("Attempting to add track");
 
     request.get(options, function(error, response, body) {
         if(error) {
@@ -260,6 +219,7 @@ app.get('/add_new_track', function(req,res){
 
         }
         console.log("Track was obtained");
+        console.log(body);
         newTrack = body;
 
         DBEntry.findOne({username:userlogin, userID: userID},function(err, doc){
