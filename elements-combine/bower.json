@@ -1,0 +1,23 @@
+{
+  "name": "website_components",
+  "description": "Contains useful angular packages etc",
+  "main": "",
+  "authors": [
+    "Spotify"
+  ],
+  "license": "MIT",
+  "homepage": "https://github.com/mhjasonliu/IEEESpotify",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "public/bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "angular": "^1.6.9",
+    "angular-route": "^1.6.9"
+  }
+}

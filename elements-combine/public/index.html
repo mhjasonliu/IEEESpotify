@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Spotify App HomePage</title>
+
+    <!-- CSS -->
+    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css">
+
+    <!-- JS -->
+    <script src="bower_components/angular/angular.js"></script>
+    <script src="bower_components/angular-route/angular-route.js"></script>
+
+</head>
+<body>
+
+<div class="conatiner">
+    <div id="login">
+        <h1>Click on the button to log in to spotify!</h1>
+        <a href="/login" class="btn btn-primary">Log in with Spotify</a>
+    </div>
+    <div id ="loggedin">
+        <p>You are now logged in!</p>
+
+    </div>
+</div>
+<script>
+    (function(){
+        //this function does nothing so far, may or may not need later
+        function getHashParams() {
+            var hashParams = {};
+            var e, r = /([^&;=]+)=?([^&;]*)/g,
+                q = window.location.hash.substring(1);
+            console.log(q);
+            while ( e = r.exec(q)) {
+                hashParams[e[1]] = decodeURIComponent(e[2]);
+            }
+            return hashParams;
+        }
+    })();
+</script>
+</body>
+</html>
