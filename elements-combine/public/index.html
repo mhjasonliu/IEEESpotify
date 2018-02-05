@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" ng-app="frontApp">
 <head>
     <meta charset="UTF-8">
     <title>Spotify App HomePage</title>
@@ -16,19 +16,11 @@
     <!-- Custom Angular Components -->
     <script src="js/frontEndApp.js"></script>
 
+
 </head>
 <body>
+    <div ng-view></div>
 
-<div class="conatiner">
-    <div id="login">
-        <h1>Click on the button to log in to spotify!</h1>
-        <a href="/login" class="btn btn-primary">Log in with Spotify</a>
-    </div>
-    <div id ="loggedin">
-        <p>You are now logged in!</p>
-
-    </div>
-</div>
 
 <script>
     (function(){
@@ -45,5 +37,9 @@
         }
     })();
 </script>
+<script src="view1/view1.js"></script>
+<script src="view2/view2.js"></script>
+<script src="view3/view3.js"></script>
+
 </body>
 </html>
