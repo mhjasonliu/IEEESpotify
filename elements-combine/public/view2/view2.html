@@ -1,8 +1,12 @@
 <p>view 2</p>
-<h1>hello, {{ personName }}</h1>
-<input type="text" name="personName">
-<p class ="text-overflow">Your access token:{{access_token}}</p>
-<p class ="text-overflow">Your refresh token:{{refresh_token}}</p>
+
+<div ng-app="frontApp.view2" ng-controller="View2Ctrl">
+    <h1>hello, {{ personName }}</h1>
+    <input ng-model=personName>
+</div>
+
+<p class ="overflow-ellipsis">Your access token:{{access_token}}</p>
+<p class ="overflow-ellipsis">Your refresh token:{{refresh_token}}</p>
 
 <iframe id = 'myplayer' src="https://open.spotify.com/embed?uri=spotify:track:5SE57ljOIUJ1ybL9U6CuBH"
         frameborder="0" allowtransparency="true"></iframe>
