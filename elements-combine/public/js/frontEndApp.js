@@ -3,11 +3,6 @@ angular.module('frontApp',['ngRoute',
                            'frontApp.view2',
                            'frontApp.view3'])
     .config(['$locationProvider', '$routeProvider', function($locationProvider, $routeProvider) {
-<<<<<<< HEAD
-
-        $locationProvider.html5Mode(true);
-}]);
-=======
         
         $locationProvider.hashPrefix('!');
         $routeProvider.when('/view1', {
@@ -19,9 +14,8 @@ angular.module('frontApp',['ngRoute',
         }).when('/view3', {
             templateUrl: 'view3/view3.html',
             controller: 'View3Ctrl'
-        }).otherwise({redirectTo: '/view1'})
+        }).otherwise({redirectTo: '/view1'});
         console.log("finished config");
         
-}])
-;
->>>>>>> 2f7ec2fd42620c46362c32d81c174495dbfb9714
+}]);
+
