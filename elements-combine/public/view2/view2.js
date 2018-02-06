@@ -5,7 +5,7 @@ angular.module('frontApp.view2', ['ngRoute'])
     .config(['$routeProvider', function($routeProvider) {
     }])
 
-    .controller('View2Ctrl', ['$scope', function($scope) {
+    .controller('View2Ctrl', ['$scope','$http', function($scope,$http) {
         $scope.personName = "tommy";
         var param = getHashParams();
         $scope.access_token = param.access_token;
@@ -23,5 +23,32 @@ angular.module('frontApp.view2', ['ngRoute'])
             return hashParams;
         }
 
+        var config = {headers: {
+                'Authorization': 'Bearer ' + $scope.access_token
+            }};
+
+        console.log("Attempting to retrieve user info from spotify");
+        $http.get('https://api.spotify.com/v1/me',config)
+            .then(function success(response){
+            $scope.display_name = response.display_name;
+            $scope.userid = response.id;
+
+            console.log("Attempting to log into database");
+
+            config = {
+                data: {
+                    'username': $scope.display_name,
+                    'userID': $scope.userid
+                }
+            };
+
+            $http.get("/dblogin", config).then(function(response){
+                $scope.tracks = response.data.trackList;
+                console.log($scope.tracks);
+            });
+
+        },function error(response){
+            console.log("error occured while logging in");
+        })
 
     }]);
