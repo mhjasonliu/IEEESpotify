@@ -7,6 +7,9 @@
     <input ng-model=personName>
     <p class ="overflow-ellipsis">Your access token:{{access_token}}</p>
     <p class ="overflow-ellipsis">Your refresh token:{{refresh_token}}</p>
+    <p class ="overflow-ellipsis">Your display name:{{display_name}}</p>
+    <p class ="overflow-ellipsis">Your user id:{{userid}}</p>
+    <a ng-click="databaseLogin()" class="btn btn-primary">Log in to database</a>
 
     <iframe id = 'myplayer' src="https://open.spotify.com/embed?uri=spotify:track:5SE57ljOIUJ1ybL9U6CuBH"
             frameborder="0" allowtransparency="true"></iframe><br />
@@ -14,5 +17,6 @@
     <a href="#!/view3" class="btn btn-primary">view 3</a>
     
     <h3>YOUR SONGS -</h3>
+    <p ng-repeat="x in tracks">{{x}}</p>
 
 </div>
