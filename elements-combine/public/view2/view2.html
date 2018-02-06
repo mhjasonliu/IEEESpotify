@@ -3,16 +3,20 @@
 </header>
 
 <div ng-app="frontApp.view2" ng-controller="View2Ctrl" class="mv5 ml5" id="home">
-    <h1 class="b">Hello, {{ personName }}.</h1>
-    <input ng-model=personName>
+    <div ng-init="databaseLogin()"></div>
+    <h1 class="b">Hello, {{display_name}}.</h1>
     <p class ="overflow-ellipsis">Your access token:{{access_token}}</p>
     <p class ="overflow-ellipsis">Your refresh token:{{refresh_token}}</p>
-    <p class ="overflow-ellipsis">Your display name:{{display_name}}</p>
     <p class ="overflow-ellipsis">Your user id:{{userid}}</p>
-    <a ng-click="databaseLogin()" class="btn btn-primary">Log in to database</a>
+    <p>Add new Track:</p>
+    <input ng-model="newTrack"> <button ng-click="addTrack()">submit track</button>
+    <p>Associate word with track:</p>
+    <input ng-model="newWord"> <button ng-click="addWord()">submit word</button>
+    <br>
 
     <iframe id = 'myplayer' src="https://open.spotify.com/embed?uri=spotify:track:5SE57ljOIUJ1ybL9U6CuBH"
-            frameborder="0" allowtransparency="true"></iframe><br />
+            frameborder="0" allowtransparency="true"></iframe>
+    <br/>
 
     <a href="#!/view3" class="btn btn-primary">view 3</a>
     

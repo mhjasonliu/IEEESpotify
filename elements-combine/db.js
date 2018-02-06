@@ -65,9 +65,9 @@ module.exports = {
             var newTrack = req.body.newTrack;
             var userlogin = req.body.username;
             var userID = req.body.userID;
-            var access_token = req.body.access_token;
 
             console.log("Attempting to add track");
+            console.log(newTrack,userlogin,userID);
 
             DBEntry.findOne({username:userlogin, userID: userID},function(err, doc){
                 if(err) return console.log(err);
@@ -100,8 +100,10 @@ module.exports = {
             var userlogin = req.body.username,
                 userID = req.body.userID,
                 trackuri = req.body.current_track_uri,
-                new_word = req.body.new_word,
-                access_token = req.body.access_token;
+                new_word = req.body.new_word;
+
+            console.log("Attempting to associate word");
+            console.log(userlogin,userID,trackuri,new_word);
 
             DBEntry.findOne({username:userlogin, userID: userID},function(err, doc){
                 if(err) return console.log(err);
@@ -128,7 +130,7 @@ module.exports = {
                         console.log("update successful");
                 });
                 res.send({
-                    'listOfStrings': doc.listOfTracks[idx].listOfStrings
+                    'trackList': doc.listOfTracks
                 });
             });
 

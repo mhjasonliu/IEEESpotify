@@ -1,10 +1,15 @@
 angular.module('frontApp',['ngRoute',
+                           'LocalStorageModule',
                            'frontApp.view1',
                            'frontApp.view2',
                            'frontApp.view3'])
-    .config(['$locationProvider', '$routeProvider', function($locationProvider, $routeProvider) {
-        
+    .config(['$locationProvider', '$routeProvider','localStorageServiceProvider',
+        function($locationProvider, $routeProvider,localStorageServiceProvider) {
+
+        localStorageServiceProvider.setPrefix('frontApp');
+
         $locationProvider.hashPrefix('!');
+
         $routeProvider.when('/view1', {
             templateUrl: 'view1/view1.html',
             controller: 'View1Ctrl'
@@ -16,6 +21,15 @@ angular.module('frontApp',['ngRoute',
             controller: 'View3Ctrl'
         }).otherwise({redirectTo: '/view1'});
         console.log("finished config");
-        
-}]);
+    }])
+    .controller('mainCtrl',['$scope','localStorageService',function($scope,localStorageService){
+        function getItem(key) {
+            return localStorageService.get(key);
+        }
+
+        function setItem(key, val) {
+            return localStorageService.set(key, val);
+        }
+
+    }]);
 
