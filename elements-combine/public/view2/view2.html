@@ -1,14 +1,18 @@
-<p>view 2</p>
+<header>
+    <a href="#!/view2" class="ml4">Web App Name</a>
+</header>
 
-<div ng-app="frontApp.view2" ng-controller="View2Ctrl">
-    <h1>hello, {{ personName }}</h1>
+<div ng-app="frontApp.view2" ng-controller="View2Ctrl" class="mv5 ml5" id="home">
+    <h1 class="b">Hello, {{ personName }}.</h1>
     <input ng-model=personName>
+    <p class ="overflow-ellipsis">Your access token:{{access_token}}</p>
+    <p class ="overflow-ellipsis">Your refresh token:{{refresh_token}}</p>
+
+    <iframe id = 'myplayer' src="https://open.spotify.com/embed?uri=spotify:track:5SE57ljOIUJ1ybL9U6CuBH"
+            frameborder="0" allowtransparency="true"></iframe><br />
+
+    <a href="#!/view3" class="btn btn-primary">view 3</a>
+    
+    <h3>YOUR SONGS -</h3>
+
 </div>
-
-<p class ="overflow-ellipsis">Your access token:{{access_token}}</p>
-<p class ="overflow-ellipsis">Your refresh token:{{refresh_token}}</p>
-
-<iframe id = 'myplayer' src="https://open.spotify.com/embed?uri=spotify:track:5SE57ljOIUJ1ybL9U6CuBH"
-        frameborder="0" allowtransparency="true"></iframe>
-
-<a href="#!/view3" class="btn btn-primary">view 3</a>
