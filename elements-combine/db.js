@@ -66,6 +66,7 @@ module.exports = {
             var userlogin = req.body.username;
             var userID = req.body.userID;
 
+            console.log(req.url);
             console.log("Attempting to add track");
             console.log(newTrack,userlogin,userID);
 

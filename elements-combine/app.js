@@ -156,7 +156,7 @@ app.get('/refresh_token', function(req, res) {
 var hasher = require("./hasher");
 var ie3database = require("./db");
 
-mongoose.connect(ie3database.uri); //connect to database
+mongoose.connect(ie3database.uri,{ useMongoClient: true }); //connect to database
 ie3database.setup(app); //set up database functionality
 
 var db = mongoose.connection;

@@ -23,13 +23,6 @@ angular.module('frontApp',['ngRoute',
         console.log("finished config");
     }])
     .controller('mainCtrl',['$scope','localStorageService',function($scope,localStorageService){
-        function getItem(key) {
-            return localStorageService.get(key);
-        }
-
-        function setItem(key, val) {
-            return localStorageService.set(key, val);
-        }
 
     }]);
 
