@@ -6,7 +6,7 @@ angular.module('frontApp.view2', ['ngRoute'])
     }])
 
     .controller('View2Ctrl', ['$scope', function($scope) {
-        $scope.personName = "tommy";
+        $scope.personName = "Tommy";
         var param = getHashParams();
         $scope.access_token = param.access_token;
         $scope.refresh_token = param.refresh_token;
