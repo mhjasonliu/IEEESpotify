@@ -20,14 +20,17 @@
     <br/>
     
     <h3>YOUR SONGS -</h3>
+    <h3>This is for Debug:</h3>
     <p ng-repeat="x in tracks">{{x}}</p>
-    <h3>Debug tracks</h3>
+
     <div class="container">
         <div class="row">
 
             <div class="col-md-3" ng-repeat="x in track_data">
                 <div class="song-card">
+                    <a ng-href="{{x.redirect}}">
                     <img id = "track image" ng-src="{{x.imageurl}}">
+                    </a>
                     <h3>{{x.name}}</h3>
                     <p>{{x.first_artist}}</p>
                 </div>

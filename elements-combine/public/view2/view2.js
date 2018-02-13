@@ -33,7 +33,6 @@ angular.module('frontApp.view2', ['ngRoute'])
             tracks.forEach(function(element) {
 
                 var url = "https://api.spotify.com/v1/tracks/" + element.track.uri.substring("spotify:track:".length);
-                console.log(url);
 
                 var track_config={
                     headers:{
@@ -42,17 +41,18 @@ angular.module('frontApp.view2', ['ngRoute'])
                 };
                 $http.get(url,track_config).then(function(response){
                     var InfoObject = {};
-                    console.log(response.data);
-                    console.log(response.data.album.images[0].url);
+                    InfoObject.redirect="#!/view3#trackuri="+encodeURI(response.data.uri);
+                    InfoObject.uri=response.data.uri;
                     InfoObject.name = response.data.name;
                     InfoObject.first_artist = response.data.artists[0].name;
                     InfoObject.imageurl = response.data.album.images[0].url;
                     $scope.track_data.push(InfoObject);
                 },function(error){
                     console.log("error occured:" +error);
+
                 });
             });
-        }
+    }
 
 
         $scope.databaseLogin = function(){
