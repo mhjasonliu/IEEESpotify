@@ -1,6 +1,7 @@
 html, body{
     font-family: 'Karla', sans-serif;
     background: #e5e5e5;
+    overflow-x: hidden;
 }
 
 a{
@@ -57,4 +58,17 @@ header a{
     font-weight: 700;
     font-size:16px;
     letter-spacing:4px;
+}
+
+.song-card{
+    background: #fff;
+    display:inline-block;
+    margin:10px;
+    width:70%;
+    box-shadow: 4px 4px 10px rgba(0,0,0,.2);
+}
+
+.song-card h3, p{
+    margin-top: 10px;
+    padding:0px 10px;
 }
