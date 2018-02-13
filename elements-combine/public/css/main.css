@@ -72,3 +72,36 @@ header a{
     margin-top: 10px;
     padding:0px 10px;
 }
+
+.song-page{
+    margin-left:0px;
+    margin-bottom:40px;
+}
+
+.song-page img{
+    width:80px;
+    display:inline-block;
+}
+
+.song-page h3{
+    display:inline-block;
+    padding-left:10px;
+    font-weight:700;
+}
+
+.comment-card{
+    box-shadow: 4px 4px 10px rgba(0,0,0,.2);
+    background:#fff;
+    padding: 20px;
+}
+
+.comment-card textarea{
+    background:#139E8C;
+    width: 100%;
+    border:none;
+    font-family: 'Karla', sans-serif;
+    box-shadow: 4px 4px 10px rgba(0,0,0,.2);
+    padding: 15px;
+    color:#fff;
+    font-size:16px;
+}

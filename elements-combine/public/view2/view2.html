@@ -18,16 +18,14 @@
     <iframe id = 'myplayer' src="https://open.spotify.com/embed?uri=spotify:track:5SE57ljOIUJ1ybL9U6CuBH"
             frameborder="0" allowtransparency="true"></iframe>
     <br/>
-
-    <a href="#!/view3" class="btn btn-primary">view 3</a>
     
     <h3>YOUR SONGS -</h3>
     <div class="container">
         <div class="row">
-            <div class="col-md-3" ng-repeat="x in tracklist">
+            <div class="col-md-3" ng-repeat="x in tracks">
                 <div class="song-card">
                     <img src="view2/img/damn.jpg">
-                    <h3>HUMBLE.</h3>
+                    <h3><a href="#!/view3">{{x.track.uri}}</a></h3>
                     <p>Kendrick Lamar &middot; DAMN. </p>
                 </div>
             </div>
