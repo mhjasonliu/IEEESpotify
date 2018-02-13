@@ -133,8 +133,14 @@ module.exports = {
                         doc.listOfTracks[idx].listOfStrings.push(new_word);
                     }
                 }
-                else
-                    res.send({err: "track not found in database."});
+                else {
+                    var trackObj = {};
+                    trackObj.uri = trackuri;
+                    var listOfStrings = [];
+                    listOfStrings.push(new_word);
+
+                    doc.listOfTracks.push({track: trackObj, listOfStrings: listOfStrings});
+                }
 
                 doc.save(function(err){
                     if(err)

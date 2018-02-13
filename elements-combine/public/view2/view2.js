@@ -15,6 +15,9 @@ angular.module('frontApp.view2', ['ngRoute'])
         }
         localStorageService.bind($scope,'access_token');
         localStorageService.bind($scope,'refresh_token');
+        localStorageService.bind($scope,'display_name');
+        localStorageService.bind($scope,'userid');
+        localStorageService.bind($scope,'tracks');
 
         function getHashParams() {
             var hashParams = {};
@@ -80,6 +83,7 @@ angular.module('frontApp.view2', ['ngRoute'])
                     $http.get("/dblogin", dbconfig).then(function (response) {
                         $scope.tracks = response.data.trackList;
                         extractTrackUriData($scope.tracks);
+                        localStorageService.set('tracks',$scope.tracks);
                     });
 
                 }, function error(response) {
@@ -88,6 +92,7 @@ angular.module('frontApp.view2', ['ngRoute'])
 
         };
 
+        //add track from front end to back end.
         $scope.addTrack=function(){
             console.log("requesting add_new_track from front end");
             var data = {
@@ -107,6 +112,7 @@ angular.module('frontApp.view2', ['ngRoute'])
                 });
         };
 
+        //add word from front end to back end
         $scope.addWord=function(){
             console.log("requesting to add new word from front end");
             var data = {

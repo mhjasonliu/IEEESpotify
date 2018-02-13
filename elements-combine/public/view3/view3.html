@@ -5,24 +5,28 @@
 </header>
 
 <div>
+    <p>Your name: {{display_name}}</p>
 <p>Your access token: {{access_token}}</p>
 <p>Your refresh token:{{refresh_token}}</p>
+<p>Your tracks:{{tracks}}</p>
 
 <div class="container">
-    <div class="row">
-        <div class="col-md-5">
-            <div class="song-card song-page">
-                <img src="{{current_track.imageurl}}">
-                <h3>{{current_track.name}}</h3>
-            </div>
-        </div>
-        <div class="col-md-12">
-            <div class="comment-card"> 
-                <textarea placeholder="put your comments here..." rows="4"></textarea>
-                <h1>Past Entries</h1>
-            </div>
+<div class="row">
+    <div class="col-md-5">
+        <div class="song-card song-page">
+            <img src="{{current_track.imageurl}}">
+            <h3>{{current_track.name}}</h3>
         </div>
     </div>
+    <div class="col-md-12">
+        <div class="comment-card">
+            <textarea ng-model="newWord" placeholder="put your comments here..." rows="4"></textarea>
+            <button ng-click="setNewWord(newWord)">Submit</button>
+            <h1>Past Entries</h1>
+            <p ng-repeat= "x in current_track_strings">{{x}}</p>
+        </div>
+    </div>
+</div>
 
 </div>
 </div>
