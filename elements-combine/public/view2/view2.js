@@ -96,5 +96,6 @@ angular.module('frontApp.view2', ['ngRoute'])
                     console.log("error occurred in associating word");
                 });
         }
+        $scope.tracklist = ["song1", "song2", "song3", "song4"];
 
 }]);
