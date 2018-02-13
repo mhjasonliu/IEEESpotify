@@ -28,6 +28,32 @@ angular.module('frontApp.view2', ['ngRoute'])
             return hashParams;
         }
 
+        function extractTrackUriData(tracks){
+            $scope.track_data = [];
+            tracks.forEach(function(element) {
+
+                var url = "https://api.spotify.com/v1/tracks/" + element.track.uri.substring("spotify:track:".length);
+                console.log(url);
+
+                var track_config={
+                    headers:{
+                        'Authorization': 'Bearer ' + $scope.access_token
+                    }
+                };
+                $http.get(url,track_config).then(function(response){
+                    var InfoObject = {};
+                    console.log(response.data);
+                    console.log(response.data.album.images[0].url);
+                    InfoObject.name = response.data.name;
+                    InfoObject.first_artist = response.data.artists[0].name;
+                    InfoObject.imageurl = response.data.album.images[0].url;
+                    $scope.track_data.push(InfoObject);
+                },function(error){
+                    console.log("error occured:" +error);
+                });
+            });
+        }
+
 
         $scope.databaseLogin = function(){
             var config = {
@@ -53,13 +79,14 @@ angular.module('frontApp.view2', ['ngRoute'])
 
                     $http.get("/dblogin", dbconfig).then(function (response) {
                         $scope.tracks = response.data.trackList;
+                        extractTrackUriData($scope.tracks);
                     });
 
                 }, function error(response) {
                     console.log("error occured while logging in to spotify");
                 });
 
-        }
+        };
 
         $scope.addTrack=function(){
             console.log("requesting add_new_track from front end");
@@ -76,8 +103,9 @@ angular.module('frontApp.view2', ['ngRoute'])
                     $scope.tracks=response.data.trackList;
                 },function error(response){
                     console.log("error occurred in adding track");
+                    extractTrackUriData($scope.tracks);
                 });
-        }
+        };
 
         $scope.addWord=function(){
             console.log("requesting to add new word from front end");
@@ -95,7 +123,6 @@ angular.module('frontApp.view2', ['ngRoute'])
                 },function error(response){
                     console.log("error occurred in associating word");
                 });
-        }
-        $scope.tracklist = ["song1", "song2", "song3", "song4"];
+        };
 
 }]);

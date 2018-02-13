@@ -22,13 +22,15 @@
     <a href="#!/view3" class="btn btn-primary">view 3</a>
     
     <h3>YOUR SONGS -</h3>
+    <p ng-repeat="x in tracks">{{x}}</p>
+    <h3>Debug tracks</h3>
     <div class="container">
         <div class="row">
-            <div class="col-md-3" ng-repeat="x in tracklist">
+            <div class="col-md-3" ng-repeat="x in track_data">
                 <div class="song-card">
-                    <img src="view2/img/damn.jpg">
-                    <h3>HUMBLE.</h3>
-                    <p>Kendrick Lamar &middot; DAMN. </p>
+                    <img id = "track image" ng-src="{{x.imageurl}}">
+                    <h3>{{x.name}}</h3>
+                    <p>{{x.first_artist}}</p>
                 </div>
             </div>
         </div>
