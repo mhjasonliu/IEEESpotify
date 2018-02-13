@@ -62,13 +62,13 @@ module.exports = {
 
         app.post('/add_new_track', function(req,res){
 
-            var newTrack = req.body.newTrack;
+            var newTracks = req.body.newTracks;
             var userlogin = req.body.username;
             var userID = req.body.userID;
 
             console.log(req.url);
             console.log("Attempting to add track");
-            console.log(newTrack,userlogin,userID);
+            console.log(newTracks,userlogin,userID);
 
             DBEntry.findOne({username:userlogin, userID: userID},function(err, doc){
                 if(err) return console.log(err);
@@ -80,11 +80,18 @@ module.exports = {
                     return;
                 }
 
-                var trackObj = {};
-                trackObj.uri = newTrack;
+                if(!Array.isArray(newTracks)) {
+                    newTracks = [newTracks];
+                }
+                newTracks.forEach(function(newItem){
+                    var trackObj = {};
+                    trackObj.uri = newItem;
 
-                if(doc.listOfTracks.find(function(x){return x.track.uri == newTrack})=== undefined)
-                    doc.listOfTracks.push({track: trackObj, listOfStrings: []});
+                    if (doc.listOfTracks.find(function (x) {
+                            return x.track.uri == newItem
+                        }) === undefined)
+                        doc.listOfTracks.push({track: trackObj, listOfStrings: []});
+                });
 
                 doc.save(function(err){
                     if(err) return console.log(err);
@@ -119,8 +126,13 @@ module.exports = {
                 var idx = doc.listOfTracks.findIndex(function(element) {
                     //console.log(element.track.uri + " " + trackuri);
                     return element.track.uri == trackuri});
-                if(idx != -1)
-                    doc.listOfTracks[idx].listOfStrings.push(new_word);
+                if(idx != -1) {
+                    if (doc.listOfTracks[idx].listOfStrings.find(function (x) {
+                            return new_word == x;
+                        }) === undefined) {
+                        doc.listOfTracks[idx].listOfStrings.push(new_word);
+                    }
+                }
                 else
                     res.send({err: "track not found in database."});
 

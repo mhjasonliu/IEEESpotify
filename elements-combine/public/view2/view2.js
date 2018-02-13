@@ -66,7 +66,7 @@ angular.module('frontApp.view2', ['ngRoute'])
             var data = {
                 username: $scope.display_name,
                 userID: $scope.userid,
-                newTrack: $scope.newTrack
+                newTracks: $scope.newTrack
             };
 
             var config = {};
