@@ -7,8 +7,10 @@ angular.module('frontApp.view2', ['ngRoute'])
 
     .controller('View2Ctrl', ['$scope','$http','localStorageService', function($scope,$http,localStorageService) {
         var param = getHashParams();
+        //give scope its initial values
         $scope.access_token = param.access_token;
         $scope.refresh_token = param.refresh_token;
+        $scope.track_data = [];
         if($scope.access_token) {
             localStorageService.set('access_token', $scope.access_token);
             localStorageService.set('refresh_token', $scope.refresh_token);
@@ -31,8 +33,9 @@ angular.module('frontApp.view2', ['ngRoute'])
             return hashParams;
         }
 
+        //for each track in given array, apply get request to get track data from uri
         function extractTrackUriData(tracks){
-            $scope.track_data = [];
+
             tracks.forEach(function(element) {
 
                 var url = "https://api.spotify.com/v1/tracks/" + element.track.uri.substring("spotify:track:".length);
@@ -44,11 +47,12 @@ angular.module('frontApp.view2', ['ngRoute'])
                 };
                 $http.get(url,track_config).then(function(response){
                     var InfoObject = {};
-                    InfoObject.redirect="#!/view3#trackuri="+encodeURI(response.data.uri);
-                    InfoObject.uri=response.data.uri;
-                    InfoObject.name = response.data.name;
-                    InfoObject.first_artist = response.data.artists[0].name;
-                    InfoObject.imageurl = response.data.album.images[0].url;
+                    var trackObj = response.data;
+                    InfoObject.redirect="#!/view3#trackuri="+encodeURI(trackObj.uri);
+                    InfoObject.uri=trackObj.uri;
+                    InfoObject.name = trackObj.name;
+                    InfoObject.first_artist = trackObj.artists[0].name;
+                    InfoObject.imageurl = trackObj.album.images[0].url;
                     $scope.track_data.push(InfoObject);
                 },function(error){
                     console.log("error occured:" +error);
@@ -106,9 +110,12 @@ angular.module('frontApp.view2', ['ngRoute'])
             $http.post('/add_new_track',data,config)
                 .then(function success(response){
                     $scope.tracks=response.data.trackList;
+                    var newObject = {track:{
+                            uri: $scope.newTrack
+                        }};
+                    extractTrackUriData([newObject]);
                 },function error(response){
                     console.log("error occurred in adding track");
-                    extractTrackUriData($scope.tracks);
                 });
         };
 
@@ -129,6 +136,32 @@ angular.module('frontApp.view2', ['ngRoute'])
                 },function error(response){
                     console.log("error occurred in associating word");
                 });
+        };
+
+        $scope.getUserPlaylists=function(){
+          var url = "https://api.spotify.com/v1/me/playlists";
+            var config = {
+                headers: {
+                    'Authorization': 'Bearer ' + $scope.access_token
+                }
+            };
+
+            $http.get(url,config).then(function(response){
+                var playlists = response.data;
+                var next_url = playlists.items[0].href;
+                $scope.all_playlist_data = playlists.items;
+                console.log($scope.all_playlist_data);
+                $http.get(next_url,config).then(function(response){
+                    var playlist = response.data;
+                    console.log(playlist);
+                    var itemArray = playlist.tracks.items;
+                    console.log(itemArray);
+
+                });
+            },function error(response){
+                console.log("error occurred in retrieving playlists");
+            });
+
         };
 
 }]);

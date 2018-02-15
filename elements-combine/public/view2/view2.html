@@ -14,11 +14,13 @@
     <textarea ng-model="newWord" rows="4" cols="50"> </textarea>
     <button ng-click="addWord()">submit word</button>
     <br>
+    <button ng-click="getUserPlaylists()"">Get Playlist Test Button</button>
+    <br>
 
     <iframe id = 'myplayer' src="https://open.spotify.com/embed?uri=spotify:track:5SE57ljOIUJ1ybL9U6CuBH"
             frameborder="0" allowtransparency="true"></iframe>
     <br/>
-    
+
     <h3>YOUR SONGS -</h3>
     <h3>This is for Debug:</h3>
     <p ng-repeat="x in tracks">{{x}}</p>
@@ -37,6 +39,22 @@
             </div>
         </div>
         
+    </div>
+
+    <h3>YOUR PLAYLISTS LOADED FROM SPOTIFY -</h3>
+    <div class="container">
+        <div class="row">
+
+            <div class="col-md-3" ng-repeat="x in all_playlist_data">
+                <div class="song-card">
+                    <a ng-href="">
+                        <img ng-src="{{x.images[0].url}}">
+                    </a>
+                    <h3>{{x.name}}</h3>
+                </div>
+            </div>
+        </div>
+
     </div>
 
 </div>
