@@ -14,26 +14,26 @@
     <textarea ng-model="newWord" rows="4" cols="50"> </textarea>
     <button ng-click="addWord()">submit word</button>
     <br>
-    <button ng-click="getUserPlaylists()"">Get Playlist Test Button</button>
+    <button ng-click="getUserPlaylists()">Get Playlist Test Button</button>
     <br>
 
-    <iframe id = 'myplayer' src="https://open.spotify.com/embed?uri=spotify:track:5SE57ljOIUJ1ybL9U6CuBH"
-            frameborder="0" allowtransparency="true"></iframe>
+    <iframe id = 'myplayer' src='https://open.spotify.com/embed?uri=spotify:track:5SE57ljOIUJ1ybL9U6CuBH'
+            frameborder='0' allowtransparency='true'></iframe>
     <br/>
 
     <h3>YOUR SONGS -</h3>
     <h3>This is for Debug:</h3>
-    <p ng-repeat="x in tracks">{{x}}</p>
+    <p ng-repeat='x in tracks'>{{x}}</p>
 
     <div class="container">
         <div class="row">
 
             <div class="col-md-3" ng-repeat="x in track_data">
-                <div class="song-card">
+                <div class="song-card" id="song-card">
                     <a ng-href="{{x.redirect}}">
                     <img id = "track image" ng-src="{{x.imageurl}}">
-                    </a>
                     <h3>{{x.name}}</h3>
+                    </a>
                     <p>{{x.first_artist}}</p>
                 </div>
             </div>
@@ -46,11 +46,12 @@
         <div class="row">
 
             <div class="col-md-3" ng-repeat="x in all_playlist_data">
-                <div class="song-card">
+                <div class="song-card" id="song-card">
                     <a ng-href="">
-                        <img ng-src="{{x.images[0].url}}">
-                    </a>
+                        <div class="playlist-img" style="background:url({{x.images[0].url}})"></div>
                     <h3>{{x.name}}</h3>
+                   </a>
+
                 </div>
             </div>
         </div>
