@@ -20,10 +20,16 @@
             </div>
             <div class="col-md-12">
                 <div class="comment-card">
-                    <textarea ng-model="newWord" placeholder="put your comments here..." rows="4"></textarea>
-                    <button ng-click="setNewWord(newWord)">Submit</button>
-                    <h1>Past Entries</h1>
-                    <p ng-repeat= "x in current_track_strings">{{x}}</p>
+                    <div class="song-header row"> <!-- Ng repeat for all songs -->
+                        <div class="col-md-7">Title</div>
+                        <div class="col-md-3">Artist</div>
+                        <div class="col-md-2">len.</div>
+                    </div>
+                    <div class="song-name row"> <!-- Ng repeat for all songs -->
+                        <div class="col-md-7">song name</div>
+                        <div class="col-md-3">artist name</div>
+                        <div class="col-md-2">len.</div>
+                    </div>
                 </div>
             </div>
         </div>

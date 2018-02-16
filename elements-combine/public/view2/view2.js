@@ -150,6 +150,12 @@ angular.module('frontApp.view2', ['ngRoute'])
                 var playlists = response.data;
                 var next_url = playlists.items[0].href;
                 $scope.all_playlist_data = playlists.items;
+                $scope.all_playlist_data.forEach(function(element)
+                {
+                    if (element.name.length > 15){
+                        element.name = element.name.substr(0, 15) + "...";
+                    }                       
+                });
                 console.log($scope.all_playlist_data);
                 $http.get(next_url,config).then(function(response){
                     var playlist = response.data;
