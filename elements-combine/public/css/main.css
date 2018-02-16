@@ -73,6 +73,10 @@ header a{
     padding:0px 10px;
 }
 
+#song-card h3{
+    letter-spacing:.5px;
+}
+
 .song-page{
     margin-left:0px;
     margin-bottom:40px;
@@ -104,4 +108,9 @@ header a{
     padding: 15px;
     color:#fff;
     font-size:16px;
+}
+
+.playlist-img{
+    max-width:100%;
+    max-height:100%;
 }
