@@ -141,6 +141,7 @@ angular.module('frontApp.view2', ['ngRoute'])
         $scope.getUserPlaylists=function(){
           var url = "https://api.spotify.com/v1/me/playlists";
             var config = {
+
                 headers: {
                     'Authorization': 'Bearer ' + $scope.access_token
                 }
