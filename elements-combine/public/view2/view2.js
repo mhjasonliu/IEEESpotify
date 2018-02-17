@@ -51,15 +51,18 @@ angular.module('frontApp.view2', ['ngRoute'])
                     InfoObject.redirect="#!/view3#trackuri="+encodeURI(trackObj.uri);
                     InfoObject.uri=trackObj.uri;
                     InfoObject.name = trackObj.name;
+                    if (InfoObject.name.length > 17){
+                        InfoObject.name = InfoObject.name.substr(0, 17) + "...";
+                    }
                     InfoObject.first_artist = trackObj.artists[0].name;
                     InfoObject.imageurl = trackObj.album.images[0].url;
                     $scope.track_data.push(InfoObject);
                 },function(error){
-                    console.log("error occured:" +error);
+                    console.log("error occured:" +error.toString());
 
                 });
             });
-    }
+        }
 
 
         $scope.databaseLogin = function(){
@@ -87,6 +90,7 @@ angular.module('frontApp.view2', ['ngRoute'])
                     $http.get("/dblogin", dbconfig).then(function (response) {
                         $scope.tracks = response.data.trackList;
                         extractTrackUriData($scope.tracks);
+                        $scope.getUserPlaylists();
                         localStorageService.set('tracks',$scope.tracks);
                     });
 
@@ -99,24 +103,45 @@ angular.module('frontApp.view2', ['ngRoute'])
         //add track from front end to back end.
         $scope.addTrack=function(){
             console.log("requesting add_new_track from front end");
-            var data = {
-                username: $scope.display_name,
-                userID: $scope.userid,
-                newTracks: $scope.newTrack
+
+            var url = "https://api.spotify.com/v1/tracks/" + $scope.newTrack.substring("spotify:track:".length);
+
+            var track_config={
+                headers:{
+                    'Authorization': 'Bearer ' + $scope.access_token
+                }
             };
+            $http.get(url,track_config).then(function(response){
 
-            var config = {};
+                var data = {
+                    username: $scope.display_name,
+                    userID: $scope.userid,
+                    newTracks: $scope.newTrack
+                };
 
-            $http.post('/add_new_track',data,config)
-                .then(function success(response){
-                    $scope.tracks=response.data.trackList;
-                    var newObject = {track:{
-                            uri: $scope.newTrack
-                        }};
-                    extractTrackUriData([newObject]);
-                },function error(response){
-                    console.log("error occurred in adding track");
-                });
+                var config = {};
+
+                $http.post('/add_new_track',data,config)
+                    .then(function success(response){
+                        $scope.form_feedback = "Track addition successful.";
+                        $scope.tracks=response.data.trackList;
+                        var newObject = {track:{
+                                uri: $scope.newTrack
+                            }};
+                        extractTrackUriData([newObject]);
+                    },function error(response){
+                        console.log("error occurred in adding track");
+                    });
+
+            },function(error){
+                $scope.form_feedback = "Error in obtaining track from Spotify. Input must be valid URI";
+                console.log("error occured:" +error.toString());
+
+            });
+
+
+
+
         };
 
         //add word from front end to back end

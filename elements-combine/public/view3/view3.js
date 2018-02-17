@@ -5,7 +5,7 @@ angular.module('frontApp.view3', ['ngRoute'])
     .config(['$routeProvider', function($routeProvider) {
     }])
 
-    .controller('View3Ctrl', ['$scope','$http','localStorageService','$sce',function($scope,$http,localStorageService,$sce) {
+    .controller('View3Ctrl', ['$scope','$http','localStorageService','$sce','$window',function($scope,$http,localStorageService,$sce,$window) {
 
         $scope.trustSrc = function(src) {
             return $sce.trustAsResourceUrl(src);
@@ -47,15 +47,9 @@ angular.module('frontApp.view3', ['ngRoute'])
             };
 
             $http.get(url,track_config).then(function(response){
-                var InfoObject = {};
                 console.log(response.data);
-                InfoObject.uri=response.data.uri;
-                InfoObject.name = response.data.name;
-                InfoObject.first_artist = response.data.artists[0].name;
-                InfoObject.imageurl = response.data.album.images[0].url;
-                InfoObject.album = response.data.album.name;
-                $scope.current_track = InfoObject;
-                $scope.current_track_embedded = "https://open.spotify.com/embed?uri=spotify:track:5SE57ljOIUJ1ybL9U6CuBH";
+                $scope.current_track = response.data;
+                $scope.current_track_embedded = "https://open.spotify.com/embed?uri="+$scope.current_track.uri;
             },function(error){
                 console.log("error occured:" +error);
             });
@@ -87,9 +81,32 @@ angular.module('frontApp.view3', ['ngRoute'])
             $http.post('/associate_word',data,config)
                 .then(function success(response){
                     $scope.tracks=response.data.trackList;
+                    $scope.current_track_strings.push(newString);
                 },function error(response){
                     console.log("error occurred in associating word");
                 });
+        };
+
+        $scope.removeTrack = function() {
+            console.log("Removing current track from database");
+            var data = {
+                username: $scope.display_name,
+                userID: $scope.userid,
+                current_track_uri: $scope.current_track.uri
+            };
+
+            var config = {};
+
+            $http.post('/remove_track',data,config)
+                .then(function success(response){
+                    console.log("removal successful");
+                    $scope.tracks=response.data.trackList;
+                    window.location.href= '#!/view2';
+
+                },function error(response){
+                    console.log("error occurred in removing track");
+                });
+
         };
 
     }]);
