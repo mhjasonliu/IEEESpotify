@@ -21,7 +21,8 @@ angular.module('frontApp.view3', ['ngRoute'])
         localStorageService.bind($scope,'tracks');
         //use local storage to do computations
         findTrackData();
-
+        
+        
         function getHashParams() {
             var hashParams = {};
             const urllen = "#!/view3#".length;
@@ -52,6 +53,7 @@ angular.module('frontApp.view3', ['ngRoute'])
                 InfoObject.name = response.data.name;
                 InfoObject.first_artist = response.data.artists[0].name;
                 InfoObject.imageurl = response.data.album.images[0].url;
+                InfoObject.album = response.data.album.name;
                 $scope.current_track = InfoObject;
                 $scope.current_track_embedded = "https://open.spotify.com/embed?uri=spotify:track:5SE57ljOIUJ1ybL9U6CuBH";
             },function(error){

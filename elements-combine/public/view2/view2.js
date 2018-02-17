@@ -153,8 +153,9 @@ angular.module('frontApp.view2', ['ngRoute'])
                 $scope.all_playlist_data = playlists.items;
                 $scope.all_playlist_data.forEach(function(element)
                 {
-                    if (element.name.length > 15){
-                        element.name = element.name.substr(0, 15) + "...";
+                    if (element.name.length > 17){
+                        element.name = element.name.substr(0, 17) + "...";
+                    element.redirect_uri = "#!/view4#playlisturi="+encodeURI(playlists.items[0].href);
                     }                       
                 });
                 console.log($scope.all_playlist_data);
