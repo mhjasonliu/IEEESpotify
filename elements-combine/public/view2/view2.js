@@ -51,11 +51,13 @@ angular.module('frontApp.view2', ['ngRoute'])
                     InfoObject.redirect="#!/view3#trackuri="+encodeURI(trackObj.uri);
                     InfoObject.uri=trackObj.uri;
                     InfoObject.name = trackObj.name;
+                    InfoObject.first_artist = trackObj.artists[0].name;
+                    InfoObject.imageurl = trackObj.album.images[0].url;
                     if (InfoObject.name.length > 17){
                         InfoObject.name = InfoObject.name.substr(0, 17) + "...";
                     }
-                    InfoObject.first_artist = trackObj.artists[0].name;
-                    InfoObject.imageurl = trackObj.album.images[0].url;
+                    if(InfoObject.first_artist.length > 17)
+                        InfoObject.first_artist = trackObj.artists[0].name.substr(0,17)+"...";
                     $scope.track_data.push(InfoObject);
                 },function(error){
                     console.log("error occured:" +error.toString());
