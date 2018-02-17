@@ -47,7 +47,7 @@
 
             <div class="col-md-3" ng-repeat="x in all_playlist_data">
                 <div class="song-card" id="song-card">
-                    <a ng-href="">
+                    <a ng-href="{{x.redirect_uri}}">
                         <div class="playlist-img" style="background:url({{x.images[0].url}}); background-position:center center;"></div>
                     <h3>{{x.name}}</h3>
                    </a>

@@ -5,7 +5,11 @@ angular.module('frontApp.view3', ['ngRoute'])
     .config(['$routeProvider', function($routeProvider) {
     }])
 
-    .controller('View3Ctrl', ['$scope','$http','localStorageService',function($scope,$http,localStorageService) {
+    .controller('View3Ctrl', ['$scope','$http','localStorageService','$sce',function($scope,$http,localStorageService,$sce) {
+
+        $scope.trustSrc = function(src) {
+            return $sce.trustAsResourceUrl(src);
+        };
 
         var param = getHashParams();
         $scope.current_track_strings = [];
@@ -49,6 +53,7 @@ angular.module('frontApp.view3', ['ngRoute'])
                 InfoObject.first_artist = response.data.artists[0].name;
                 InfoObject.imageurl = response.data.album.images[0].url;
                 $scope.current_track = InfoObject;
+                $scope.current_track_embedded = "https://open.spotify.com/embed?uri=spotify:track:5SE57ljOIUJ1ybL9U6CuBH";
             },function(error){
                 console.log("error occured:" +error);
             });
