@@ -64,6 +64,44 @@ angular.module('frontApp.view2', ['ngRoute'])
             });
         }
 
+        //slightly faster variant for getting track data as opposed to getting single track
+        function extractMultipleTrackUriData(tracks){
+
+
+            var url = "https://api.spotify.com/v1/tracks/?ids=";
+            tracks.forEach(function(element){
+                url = url + element.track.uri.substring("spotify:track:".length) + ',';
+            });
+            url = url.substring(0,url.length-1);
+
+            var track_config={
+                headers:{
+                    'Authorization': 'Bearer ' + $scope.access_token
+                }
+            };
+            console.log("Requesting track data from Spotify");
+            console.log(url);
+            $http.get(url,track_config).then(function(response){
+                var trackObjs = response.data.tracks;
+                console.log(trackObjs);
+                trackObjs.forEach(function(trackObj){
+                    var InfoObject = {};
+                    InfoObject.redirect="#!/view3#trackuri="+encodeURI(trackObj.uri);
+                    InfoObject.uri=trackObj.uri;
+                    InfoObject.name = trackObj.name;
+                    if (InfoObject.name.length > 17){
+                        InfoObject.name = InfoObject.name.substr(0, 17) + "...";
+                    }
+                    InfoObject.first_artist = trackObj.artists[0].name;
+                    InfoObject.imageurl = trackObj.album.images[0].url;
+                    $scope.track_data.push(InfoObject);
+                });
+            },function(error){
+                console.log("error occured:" +error.toString());
+
+            });
+        }
+
 
         $scope.databaseLogin = function(){
             var config = {
@@ -180,18 +218,11 @@ angular.module('frontApp.view2', ['ngRoute'])
                 {
                     if (element.name.length > 17){
                         element.name = element.name.substr(0, 17) + "...";
-                    element.redirect_uri = "#!/view4#playlisturi="+encodeURI(playlists.items[0].href);
                     }                       
                 });
                 console.log($scope.all_playlist_data);
-                $scope.all_playlist_data[0].redirect_uri = "#!/view4#playlistid="+encodeURI($scope.all_playlist_data[0].id);
-                $http.get(next_url,config).then(function(response){
-                    var playlist = response.data;
-                    console.log(playlist);
-                    var itemArray = playlist.tracks.items;
-                    console.log(itemArray);
-
-                });
+                for(var i = 0; i < $scope.all_playlist_data.length;i++)
+                    $scope.all_playlist_data[i].redirect_uri = "#!/view4#playlistid="+encodeURI($scope.all_playlist_data[i].id);
             },function error(response){
                 console.log("error occurred in retrieving playlists");
             });
