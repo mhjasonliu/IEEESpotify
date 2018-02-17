@@ -155,6 +155,7 @@ angular.module('frontApp.view2', ['ngRoute'])
                 {
                     if (element.name.length > 17){
                         element.name = element.name.substr(0, 17) + "...";
+                    element.redirect_uri = "#!/view4#playlisturi="+encodeURI(playlists.items[0].href);
                     }                       
                 });
                 console.log($scope.all_playlist_data);
