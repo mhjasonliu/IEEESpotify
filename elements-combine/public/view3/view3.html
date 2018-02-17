@@ -14,14 +14,14 @@
 <div class="row">
     <div class="col-md-5">
         <div class="song-card song-page">
-            <img src="{{current_track.imageurl}}">
-            <h3>{{current_track.name}}</h3>
+            <iframe id = 'myplayer' ng-src=' {{trustSrc(current_track.embeddeduri)}} '
+                    frameborder='0' allowtransparency='true'></iframe>
         </div>
     </div>
     <div class="col-md-12">
         <div class="comment-card">
             <textarea ng-model="newWord" placeholder="put your comments here..." rows="4"></textarea>
-            <button ng-click="setNewWord(newWord)">Submit</button>
+            <button class="song-note-button" ng-click="setNewWord(newWord)">Submit</button>
             <h1>Past Entries</h1>
             <p ng-repeat= "x in current_track_strings">{{x}}</p>
         </div>
