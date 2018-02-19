@@ -104,6 +104,44 @@ module.exports = {
 
         });
 
+        app.post('/word_cloud', function(req,res){
+            var userlogin = req.body.username;
+            var userID = req.body.userID;
+            console.log(userlogin);
+            
+
+            var text = "";
+
+            DBEntry.find({username: userlogin}, function(err, doc){
+                if(err) return console.log(err);
+
+                if(doc === null) {
+                    return console.log("No contents found");
+                }
+
+                
+                var len = doc[0].listOfTracks.length;
+                for (var i = 0; i < len; i++){
+                    var track = doc[0].listOfTracks[i];
+                    for (var j = 0; j < track.listOfStrings.length; j++){
+                        var result = track.listOfStrings[j].replace(/[^a-zA-Z0-9]/g, " ");
+                        text = text + result.toLowerCase();
+                    }
+                }
+
+                if (text == ""){
+                    return alert("It looks like you haven't written anything yet....");
+                }
+
+                console.log(text);
+
+                res.send({
+                    'text': text
+                });
+            });
+
+        });
+
         app.post('/associate_word',function(req,res){
             var userlogin = req.body.username,
                 userID = req.body.userID,

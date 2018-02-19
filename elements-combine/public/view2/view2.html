@@ -5,11 +5,12 @@
 <div ng-app="frontApp.view2" ng-controller="View2Ctrl" class="mv5 ml5" id="home">
     <div ng-init="databaseLogin()"></div>
     <h1 class="b">Hello, {{display_name}}.</h1>
-    <p class ="overflow-ellipsis">Your access token:{{access_token}}</p>
-    <p class ="overflow-ellipsis">Your refresh token:{{refresh_token}}</p>
-    <p class ="overflow-ellipsis">Your user id:{{userid}}</p>
+    <p class="overflow-ellipsis">Your access token:{{access_token}}</p>
+    <p class="overflow-ellipsis">Your refresh token:{{refresh_token}}</p>
+    <p class="overflow-ellipsis">Your user id:{{userid}}</p>
     <p>Add new Track:</p>
-    <input ng-model="newTrack"> <button ng-click="addTrack()">submit track</button>
+    <input ng-model="newTrack">
+    <button ng-click="addTrack()">submit track</button>
     <p>Associate word with track:</p>
     <textarea ng-model="newWord" rows="4" cols="50"> </textarea>
     <button ng-click="addWord()">submit word</button>
@@ -17,8 +18,15 @@
     <button ng-click="getUserPlaylists()">Get Playlist Test Button</button>
     <br>
 
-    <iframe id = 'myplayer' src='https://open.spotify.com/embed?uri=spotify:track:5SE57ljOIUJ1ybL9U6CuBH'
-            frameborder='0' allowtransparency='true'></iframe>
+    <div id="wordsCloud" ng-controller="AppController as appCtrl">
+            <button ng-click="startWordCloud()">Get my word cloud</button>
+            
+            <word-cloud words="appCtrl.words" width="appCtrl.width" height="appCtrl.height" padding="5" rotate="appCtrl.rotate" use-tooltip="appCtrl.useTooltip"
+                random="appCtrl.random" use-transition="appCtrl.useTransition" on-click="appCtrl.wordClicked">
+            </word-cloud>
+        </div>
+
+    <iframe id='myplayer' src='https://open.spotify.com/embed?uri=spotify:track:5SE57ljOIUJ1ybL9U6CuBH' frameborder='0' allowtransparency='true'></iframe>
     <br/>
 
     <h3>YOUR SONGS -</h3>
@@ -31,14 +39,14 @@
             <div class="col-md-3" ng-repeat="x in track_data">
                 <div class="song-card" id="song-card">
                     <a ng-href="{{x.redirect}}">
-                    <img id = "track image" ng-src="{{x.imageurl}}">
-                    <h3>{{x.name}}</h3>
+                        <img id="track image" ng-src="{{x.imageurl}}">
+                        <h3>{{x.name}}</h3>
                     </a>
                     <p>{{x.first_artist}}</p>
                 </div>
             </div>
         </div>
-        
+
     </div>
 
     <h3>YOUR PLAYLISTS LOADED FROM SPOTIFY -</h3>
@@ -49,8 +57,8 @@
                 <div class="song-card" id="song-card">
                     <a ng-href="">
                         <div class="playlist-img" style="background:url({{x.images[0].url}})"></div>
-                    <h3>{{x.name}}</h3>
-                   </a>
+                        <h3>{{x.name}}</h3>
+                    </a>
 
                 </div>
             </div>
@@ -58,4 +66,26 @@
 
     </div>
 
+
 </div>
+
+<!--
+<div ng-controller="AppController as appCtrl">
+
+        <button ng-click="startWordCloud()">Get my word cloud</button>
+
+        <textarea class="form-control" rows="5" cols="80" placeholder="Please input some content..." ng-model="appCtrl.content">> </textarea>
+
+        <button class="btn-sm" ng-click="appCtrl.generateWords()">
+            <i class="fa fa-cloud" aria-hidden="true"></i> Generate</button>
+
+
+        <div id="wordsCloud">
+            <word-cloud words="appCtrl.words" width="appCtrl.width" height="appCtrl.height" padding="appCtrl.padding" random="appCtrl.random"
+                rotate="appCtrl.rotate" use-transition="appCtrl.useTransition" use-tooltip="appCtrl.useTooltip" use-transition="appCtrl.useTransition"
+                on-click="appCtrl.wordClicked">
+            </word-cloud>
+        </div>
+
+    </div>
+-->

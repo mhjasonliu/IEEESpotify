@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en" ng-app="frontApp">
+
 <head>
     <meta charset="UTF-8">
     <title>Spotify App HomePage</title>
@@ -9,7 +10,7 @@
     <link href="https://fonts.googleapis.com/css?family=Karla" rel="stylesheet">
     <link rel="stylesheet" href="/css/main.css">
     <script src="https://use.fontawesome.com/1f7de367f8.js"></script>
-    <link rel="stylesheet" href="https://unpkg.com/tachyons@4.9.1/css/tachyons.min.css"/>
+    <link rel="stylesheet" href="https://unpkg.com/tachyons@4.9.1/css/tachyons.min.css" />
 
 
     <!-- JS -->
@@ -17,34 +18,44 @@
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular-route.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script src="bower_components/angular-local-storage/dist/angular-local-storage.min.js"></script>
+    
+    <!-- it's important for d3.js -->
+    <script src="bower_components/d3/d3.min.js"></script>
+    <script src="bower_components/d3-cloud/build/d3.layout.cloud.js"></script>
+    <script src="bower_components/angular-d3-word-cloud/dist/angular-word-cloud.min.js"></script>
+
 
     <!-- Custom Angular Components -->
     <script src="js/frontEndApp.js"></script>
 
 
+
+
 </head>
+
 <body>
     <div ng-view></div>
 
 
-<script>
-    (function(){
-        //this function does nothing so far, may or may not need later
-        function getHashParams() {
-            var hashParams = {};
-            var e, r = /([^&;=]+)=?([^&;]*)/g,
-                q = window.location.hash.substring(1);
-            console.log(q);
-            while ( e = r.exec(q)) {
-                hashParams[e[1]] = decodeURIComponent(e[2]);
+    <script>
+        (function () {
+            //this function does nothing so far, may or may not need later
+            function getHashParams() {
+                var hashParams = {};
+                var e, r = /([^&;=]+)=?([^&;]*)/g,
+                    q = window.location.hash.substring(1);
+                console.log(q);
+                while (e = r.exec(q)) {
+                    hashParams[e[1]] = decodeURIComponent(e[2]);
+                }
+                return hashParams;
             }
-            return hashParams;
-        }
-    })();
-</script>
-<script src="view1/view1.js"></script>
-<script src="view2/view2.js"></script>
-<script src="view3/view3.js"></script>
-<script src="view4/view4.js"></script>
+        })();
+    </script>
+    <script src="view1/view1.js"></script>
+    <script src="view2/view2.js"></script>
+    <script src="view3/view3.js"></script>
+    <script src="view4/view4.js"></script>
 </body>
+
 </html>
