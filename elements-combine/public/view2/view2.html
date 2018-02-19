@@ -13,17 +13,15 @@
     <p>{{form_feedback}}</p>
 
     <div id="wordsCloud" ng-controller="AppController as appCtrl">
-        <word-cloud words="appCtrl.words" width="appCtrl.width" height="appCtrl.height"
-                    padding="10"
-                    rotate="appCtrl.rotate"
-                    random="appCtrl.random"
-                    use-tooltip="appCtrl.useTooltip"
-                    use-transition="appCtrl.useTransition"
-                    on-click="appCtrl.wordClicked">
-        </word-cloud>
-    </div>
 
+            <button ng-click="startWordCloud()">Get my word cloud</button>
+            
+            <word-cloud words="appCtrl.words" width="appCtrl.width" height="appCtrl.height" padding="5" rotate="appCtrl.rotate" use-tooltip="appCtrl.useTooltip"
+                random="appCtrl.random" use-transition="appCtrl.useTransition" on-click="appCtrl.wordClicked">
+            </word-cloud>
+        </div>
 
+    <iframe id='myplayer' src='https://open.spotify.com/embed?uri=spotify:track:5SE57ljOIUJ1ybL9U6CuBH' frameborder='0' allowtransparency='true'></iframe>
     <br/>
 
     <h3>YOUR SONGS -</h3>
@@ -33,15 +31,15 @@
             <div class="col-md-3" ng-repeat="x in track_data">
                 <div class="song-card" id="song-card">
                     <a ng-href="{{x.redirect}}">
-                    <img id = "track image" ng-src="{{x.imageurl}}">
-                    <h3>{{x.name}}</h3>
+                        <img id="track image" ng-src="{{x.imageurl}}">
+                        <h3>{{x.name}}</h3>
                     </a>
                     <p>{{x.first_artist}}</p>
                     <br>
                 </div>
             </div>
         </div>
-        
+
     </div>
 
     <h3>YOUR PLAYLISTS -</h3>
