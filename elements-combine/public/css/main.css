@@ -26,6 +26,16 @@ a, a:hover, a:active, a:visited, a:focus {
     background: #139E8C;
 }
 
+.bg-fa{
+    position: fixed;
+    bottom:-50px;
+    right:-50px;
+    transform: rotate(210deg);
+    opacity: .3;
+    color:#139E8C;
+    font-size:40em;
+}
+
 .bttn{
     background: #139E8C;
     padding: 15px 50px;
