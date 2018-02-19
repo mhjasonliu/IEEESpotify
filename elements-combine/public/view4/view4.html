@@ -13,17 +13,27 @@
     <div class="container">
         <div class="row">
             <div class="col-md-5">
-                <div class="song-card song-page">
-                    <img src="{{current_track.imageurl}}">
-                    <h3>{{current_track.name}}</h3>
+                <div class="song-page">
+                    <img src="{{current_playlist.images[0].url}}">
+                    <h3>{{current_playlist.name}}</h3>
                 </div>
             </div>
             <div class="col-md-12">
+                <h4>Tracks turn green when they are added to database!</h4>
                 <div class="comment-card">
-                    <textarea ng-model="newWord" placeholder="put your comments here..." rows="4"></textarea>
-                    <button ng-click="setNewWord(newWord)">Submit</button>
-                    <h1>Past Entries</h1>
-                    <p ng-repeat= "x in current_track_strings">{{x}}</p>
+                    <div class="song-header row"> <!-- Ng repeat for all songs -->
+                        <div class="col-md-7" >title</div>
+                        <div class="col-md-3">Artist</div>
+                        <div class="col-md-2"><i class="fa fa-clock-o"></i></div>
+
+                    </div>
+                    <div class="song-name row"ng-repeat="x in current_playlist_tracks"> <!-- Ng repeat for all songs -->
+                        <a ng-click="addTrack(x.track.uri)">
+                            <div class="col-md-7" ng-style="{'color': x.color}">{{x.track.name}}</div>
+                        </a>
+                        <div class="col-md-3">{{x.track.artists[0].name}}</div>
+                        <div class="col-md-2">{{x.track.duration_ms | date:'mm:ss'}}</div>
+                    </div>
                 </div>
             </div>
         </div>

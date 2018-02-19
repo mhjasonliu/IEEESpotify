@@ -11,7 +11,7 @@ a{
 
 a:hover{
     text-decoration: none;
-    color: #fff;
+    color:#DC143C;
 }
 
 .bttn{
@@ -68,7 +68,7 @@ header a{
     box-shadow: 4px 4px 10px rgba(0,0,0,.2);
 }
 
-.song-card h3, p{
+.song-card h3, .song-card p{
     margin-top: 10px;
     padding:0px 10px;
 }
@@ -80,23 +80,33 @@ header a{
 .song-page{
     margin-left:0px;
     margin-bottom:40px;
+    height:120px;
+    width:100%;
 }
 
 .song-page img{
-    width:80px;
-    display:inline-block;
+    width:120px;
+    position:absolute;
+    margin-left:0;
+}
+
+.song-page h3, .song-page p{
+    padding-left:135px;
 }
 
 .song-page h3{
-    display:inline-block;
-    padding-left:10px;
     font-weight:700;
+    margin: 20px 0px 0px 0px;
+}
+
+.song-page p{
+    margin-top:0;
 }
 
 .comment-card{
-    box-shadow: 4px 4px 10px rgba(0,0,0,.2);
-    background:#fff;
+    background: #fff;
     padding: 20px;
+    box-shadow: 4px 4px 10px rgba(0,0,0,.2);
 }
 
 .comment-card textarea{
@@ -110,7 +120,39 @@ header a{
     font-size:16px;
 }
 
+.comment-card textarea::placeholder{
+    color:rgba(255,255,255,.7);
+}
+
 .playlist-img{
-    max-width:100%;
-    max-height:100%;
+    width:100%;
+    padding-top:100%;
+    background-position:50% 50%;
+}
+
+.song-header{
+    padding:15px;
+    margin:0px;
+    background:#139E8C;
+    color:#fff;
+    font-weight:bold;
+    font-size:20px;
+}
+
+.song-name{
+    padding:7px;
+    margin:10px;
+    border-bottom:1px solid #ddd;
+}
+
+.song-note-button{
+    margin-top:5px;
+    background:#139E8C;
+    border:none;
+    padding:10px 30px;
+    border-radius:40px;
+    box-shadow: 4px 4px 10px rgba(0,0,0,.2);
+    font-family: 'Karla';
+    color:#fff;
+    
 }

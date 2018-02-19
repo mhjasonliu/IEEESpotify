@@ -192,5 +192,44 @@ module.exports = {
             });
 
         });
+
+        app.post('/remove_track',function(req,res){
+            var userlogin = req.body.username,
+                userID = req.body.userID,
+                trackuri = req.body.current_track_uri;
+
+            console.log("Attempting to remove track.");
+            console.log(userlogin,userID,trackuri);
+
+            DBEntry.findOne({username:userlogin, userID: userID},function(err, doc){
+                if(err) return console.log(err);
+
+                if(doc === null) {
+                    res.send({
+                        'err': "You must be logged in to access."
+                    });
+                    return;
+                }
+
+                var idx = doc.listOfTracks.findIndex(function(element) {
+                    return element.track.uri == trackuri});
+                if(idx != -1) {
+                    doc.listOfTracks.splice(idx, 1); //remove 1 item from the i'th index
+                }
+
+                doc.save(function(err){
+                    if(err)
+                        return console.log(err);
+                    else
+                        console.log("removal successful");
+                });
+                res.send({
+                    'trackList': doc.listOfTracks
+                });
+            });
+
+        });
+
+
     }
 };

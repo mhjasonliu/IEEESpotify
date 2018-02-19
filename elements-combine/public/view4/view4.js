@@ -8,7 +8,6 @@ angular.module('frontApp.view4', ['ngRoute'])
     .controller('View4Ctrl', ['$scope','$http','localStorageService',function($scope,$http,localStorageService) {
 
         var param = getHashParams();
-        $scope.current_track_strings = [];
         //bind current values to values in local storage
         localStorageService.bind($scope,'display_name');
         localStorageService.bind($scope,'userid');
@@ -16,7 +15,7 @@ angular.module('frontApp.view4', ['ngRoute'])
         localStorageService.bind($scope,'refresh_token');
         localStorageService.bind($scope,'tracks');
         //use local storage to do computations
-        findTrackData();
+        findPlaylistData();
 
         function getHashParams() {
             var hashParams = {};
@@ -30,10 +29,9 @@ angular.module('frontApp.view4', ['ngRoute'])
             return hashParams;
         }
 
-        function findTrackData(){
-            var trackUri = param.trackuri;
-            console.log(trackUri);
-            var url = "https://api.spotify.com/v1/tracks/" + trackUri.substring("spotify:track:".length);
+        function findPlaylistData(){
+            var playlistID = param.playlistid;
+            var url = "https://api.spotify.com/v1/users/"+$scope.userid+"/playlists/"+playlistID;
 
             var track_config= {
                 headers:{
@@ -42,18 +40,20 @@ angular.module('frontApp.view4', ['ngRoute'])
             };
 
             $http.get(url,track_config).then(function(response){
-                var InfoObject = {};
                 console.log(response.data);
-                InfoObject.uri=response.data.uri;
-                InfoObject.name = response.data.name;
-                InfoObject.first_artist = response.data.artists[0].name;
-                InfoObject.imageurl = response.data.album.images[0].url;
-                $scope.current_track = InfoObject;
+                $scope.current_playlist = response.data;
+
+                $scope.current_playlist_tracks = $scope.current_playlist.tracks.items;
+                for(var i = 0;i < $scope.current_playlist_tracks.length;i++) {
+                    if($scope.tracks.find(function(element){return element.track.uri == $scope.current_playlist_tracks[i].track.uri;}))
+                        $scope.current_playlist_tracks[i].color = 'green';
+                    else
+                        $scope.current_playlist_tracks[i].color = 'red';
+                }
             },function(error){
                 console.log("error occured:" +error);
             });
             //get the current track's strings. These should be from the binding in the local storage
-            $scope.current_track_strings = getTrackStrings();
         }
 
         function getTrackStrings(){
@@ -64,7 +64,7 @@ angular.module('frontApp.view4', ['ngRoute'])
             }).listOfStrings;
         }
 
-        $scope.setNewWord = function(newString){
+        $scope.setNewWord = function(newString,currentTrack){
             if(!newString)
                 return;
             console.log("Submitting new word: " + newString);
@@ -79,10 +79,29 @@ angular.module('frontApp.view4', ['ngRoute'])
             var config = {};
             $http.post('/associate_word',data,config)
                 .then(function success(response){
-                $scope.tracks=response.data.trackList;
-            },function error(response){
-                console.log("error occurred in associating word");
-            });
+                    $scope.tracks=response.data.trackList;
+                },function error(response){
+                    console.log("error occurred in associating word");
+                });
+        };
+
+        $scope.addTrack=function(newTrack){
+            console.log("requesting add_new_track from front end");
+            var data = {
+                username: $scope.display_name,
+                userID: $scope.userid,
+                newTracks: newTrack
+            };
+
+            var config = {};
+
+            $http.post('/add_new_track',data,config)
+                .then(function success(response){
+                    $scope.tracks=response.data.trackList;
+                    $scope.current_playlist_tracks.find(function(element){return element.track.uri == newTrack;}).color = 'green';
+                },function error(response){
+                    console.log("error occurred in adding track");
+                });
         };
 
     }]);

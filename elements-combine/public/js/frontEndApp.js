@@ -3,8 +3,7 @@ angular.module('frontApp',['ngRoute',
                            'frontApp.view1',
                            'frontApp.view2',
                            'frontApp.view3',
-                           
-                        ])
+                           'frontApp.view4'])
     .config(['$locationProvider', '$routeProvider','localStorageServiceProvider',
         function($locationProvider, $routeProvider,localStorageServiceProvider) {
 

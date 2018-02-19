@@ -53,9 +53,14 @@ angular.module('frontApp.view2', ['ngRoute', 'angular-d3-word-cloud'])
                     InfoObject.name = trackObj.name;
                     InfoObject.first_artist = trackObj.artists[0].name;
                     InfoObject.imageurl = trackObj.album.images[0].url;
+                    if (InfoObject.name.length > 17){
+                        InfoObject.name = InfoObject.name.substr(0, 17) + "...";
+                    }
+                    if(InfoObject.first_artist.length > 17)
+                        InfoObject.first_artist = trackObj.artists[0].name.substr(0,17)+"...";
                     $scope.track_data.push(InfoObject);
-                }, function (error) {
-                    console.log("error occured:" + error);
+                },function(error){
+                    console.log("error occured:" +error.toString());
 
                 });
             });
@@ -87,7 +92,8 @@ angular.module('frontApp.view2', ['ngRoute', 'angular-d3-word-cloud'])
                     $http.get("/dblogin", dbconfig).then(function (response) {
                         $scope.tracks = response.data.trackList;
                         extractTrackUriData($scope.tracks);
-                        localStorageService.set('tracks', $scope.tracks);
+                        $scope.getUserPlaylists();
+                        localStorageService.set('tracks',$scope.tracks);
                     });
 
                 }, function error(response) {
@@ -99,26 +105,42 @@ angular.module('frontApp.view2', ['ngRoute', 'angular-d3-word-cloud'])
         //add track from front end to back end.
         $scope.addTrack = function () {
             console.log("requesting add_new_track from front end");
-            var data = {
-                username: $scope.display_name,
-                userID: $scope.userid,
-                newTracks: $scope.newTrack
+
+            var url = "https://api.spotify.com/v1/tracks/" + $scope.newTrack.substring("spotify:track:".length);
+
+            var track_config={
+                headers:{
+                    'Authorization': 'Bearer ' + $scope.access_token
+                }
             };
+            $http.get(url,track_config).then(function(response){
 
-            var config = {};
+                var data = {
+                    username: $scope.display_name,
+                    userID: $scope.userid,
+                    newTracks: $scope.newTrack
+                };
 
-            $http.post('/add_new_track', data, config)
-                .then(function success(response) {
-                    $scope.tracks = response.data.trackList;
-                    var newObject = {
-                        track: {
-                            uri: $scope.newTrack
-                        }
-                    };
-                    extractTrackUriData([newObject]);
-                }, function error(response) {
-                    console.log("error occurred in adding track");
-                });
+                var config = {};
+
+                $http.post('/add_new_track',data,config)
+                    .then(function success(response){
+                        $scope.form_feedback = "Track addition successful.";
+                        $scope.tracks=response.data.trackList;
+                        var newObject = {track:{
+                                uri: $scope.newTrack
+                            }};
+                        extractTrackUriData([newObject]);
+                    },function error(response){
+                        console.log("error occurred in adding track");
+                    });
+
+            },function(error){
+                $scope.form_feedback = "Error in obtaining track from Spotify. Input must be valid URI";
+                console.log("error occured:" +error.toString());
+
+            });
+
         };
 
         //add word from front end to back end
@@ -153,15 +175,16 @@ angular.module('frontApp.view2', ['ngRoute', 'angular-d3-word-cloud'])
                 var playlists = response.data;
                 var next_url = playlists.items[0].href;
                 $scope.all_playlist_data = playlists.items;
-                console.log($scope.all_playlist_data);
-                $http.get(next_url, config).then(function (response) {
-                    var playlist = response.data;
-                    console.log(playlist);
-                    var itemArray = playlist.tracks.items;
-                    console.log(itemArray);
-
+                $scope.all_playlist_data.forEach(function(element)
+                {
+                    if (element.name.length > 17){
+                        element.name = element.name.substr(0, 17) + "...";
+                    }                       
                 });
-            }, function error(response) {
+                console.log($scope.all_playlist_data);
+                for(var i = 0; i < $scope.all_playlist_data.length;i++)
+                    $scope.all_playlist_data[i].redirect_uri = "#!/view4#playlistid="+encodeURI($scope.all_playlist_data[i].id);
+            },function error(response){
                 console.log("error occurred in retrieving playlists");
             });
 
