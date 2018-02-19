@@ -46,9 +46,9 @@ angular.module('frontApp.view4', ['ngRoute'])
                 $scope.current_playlist_tracks = $scope.current_playlist.tracks.items;
                 for(var i = 0;i < $scope.current_playlist_tracks.length;i++) {
                     if($scope.tracks.find(function(element){return element.track.uri == $scope.current_playlist_tracks[i].track.uri;}))
-                        $scope.current_playlist_tracks[i].color = 'green';
+                        $scope.current_playlist_tracks[i].color = '#139E8C';
                     else
-                        $scope.current_playlist_tracks[i].color = 'red';
+                        $scope.current_playlist_tracks[i].color = '#35bfae';
                 }
             },function(error){
                 console.log("error occured:" +error);
