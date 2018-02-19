@@ -5,29 +5,33 @@
 </header>
 
 <div>
+<!--
     <p>Your name: {{display_name}}</p>
     <p>Your access token: {{access_token}}</p>
     <p>Your refresh token:{{refresh_token}}</p>
     <p>Your tracks:{{tracks}}</p>
-
+-->
+    <div class="backsplash">
+        <img ng-src="{{current_playlist.images[0].url}}">
+    </div>
     <div class="container">
         <div class="row">
             <div class="col-md-5">
-                <div class="song-page">
-                    <img src="{{current_playlist.images[0].url}}">
+                <div class="playlist-page">
+                    <div class="playlist-page-album">
+                        <img src="{{current_playlist.images[0].url}}">
+                    </div>
                     <h3>{{current_playlist.name}}</h3>
                 </div>
             </div>
             <div class="col-md-12">
-                <h4>Tracks turn green when they are added to database!</h4>
                 <div class="comment-card">
                     <div class="song-header row"> <!-- Ng repeat for all songs -->
-                        <div class="col-md-7" >title</div>
+                        <div class="col-md-7" >Title</div>
                         <div class="col-md-3">Artist</div>
                         <div class="col-md-2"><i class="fa fa-clock-o"></i></div>
-
                     </div>
-                    <div class="song-name row"ng-repeat="x in current_playlist_tracks"> <!-- Ng repeat for all songs -->
+                    <div class="song-name row" ng-repeat="x in current_playlist_tracks"> <!-- Ng repeat for all songs -->
                         <a ng-click="addTrack(x.track.uri)">
                             <div class="col-md-7" ng-style="{'color': x.color}">{{x.track.name}}</div>
                         </a>

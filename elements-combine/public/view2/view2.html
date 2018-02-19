@@ -5,17 +5,16 @@
 <div ng-app="frontApp.view2" ng-controller="View2Ctrl" class="mv5 ml5" id="home">
     <div ng-init="databaseLogin()"></div>
     <h1 class="b">Hello, {{display_name}}.</h1>
+<!--
     <p class ="overflow-ellipsis">Your access token:{{access_token}}</p>
     <p class ="overflow-ellipsis">Your refresh token:{{refresh_token}}</p>
     <p class ="overflow-ellipsis">Your user id:{{userid}}</p>
     <p>Add New Track Manually:</p>
     <input ng-model="newTrack"> <button ng-click="addTrack()">submit track</button>
     <p>{{form_feedback}}</p>
+-->
 
-    <div id="wordsCloud" ng-controller="AppController as appCtrl">
-
-            <button ng-click="startWordCloud()">Get my word cloud</button>
-            
+    <div id="wordsCloud" ng-controller="AppController as appCtrl" ng-init = "startWordCloud()">            
             <word-cloud words="appCtrl.words" width="appCtrl.width" height="appCtrl.height" padding="5" rotate="appCtrl.rotate" use-tooltip="appCtrl.useTooltip"
                 random="appCtrl.random" use-transition="appCtrl.useTransition" on-click="appCtrl.wordClicked">
             </word-cloud>
@@ -23,12 +22,14 @@
 
     </div>
 
+<!--
     <iframe id='myplayer' src='https://open.spotify.com/embed?uri=spotify:track:5SE57ljOIUJ1ybL9U6CuBH' frameborder='0' allowtransparency='true'></iframe>
     <br/>
+-->
 
 
-        <h4>Songs associated to words you just clicked:</h4>
-        <div class="container">
+    <h3>SONGS FROM YOUR WORD CLOUD - <a class="togglesongs" onclick="toggleYourSongs('your-words', 'words-button')"><i class="fa fa-2x fa-chevron-down toggle-button" id="words-button"></i></h3>
+        <div class="container" id="your-words">
             <div class="row">
 
                 <div class="col-md-3" ng-repeat="x in playlist_builder">
@@ -38,7 +39,6 @@
                             <h3>{{x.name}}</h3>
                         </a>
                         <p>{{x.first_artist}}</p>
-                        <br>
                     </div>
                 </div>
             </div>
@@ -46,10 +46,9 @@
         </div>
 
 
-    <h3>YOUR SONGS -</h3>
-    <div class="container">
+    <h3>YOUR SONGS - <a class="togglesongs" onclick="toggleYourSongs('yoursongs', 'songs-button')"><i class="fa fa-2x fa-chevron-down toggle-button" id="songs-button"></i></a></h3>
+    <div class="container" id="yoursongs">
         <div class="row">
-
             <div class="col-md-3" ng-repeat="x in track_data">
                 <div class="song-card" id="song-card">
                     <a ng-href="{{x.redirect}}">
@@ -57,21 +56,20 @@
                         <h3>{{x.name}}</h3>
                     </a>
                     <p>{{x.first_artist}}</p>
-                    <br>
                 </div>
             </div>
         </div>
 
     </div>
 
-    <h3>YOUR PLAYLISTS -</h3>
-    <div class="container">
+    <h3>YOUR PLAYLISTS - <a class="togglesongs" onclick="toggleYourSongs('yourplaylists', 'playlist-button')"><i class="fa fa-2x fa-chevron-down toggle-button" id="playlist-button"></i></a></h3>
+    <div class="container" id="yourplaylists">
         <div class="row">
 
             <div class="col-md-3" ng-repeat="x in all_playlist_data">
                 <div class="song-card" id="song-card">
                     <a ng-href="{{x.redirect_uri}}">
-                        <div class="playlist-img" style="background:url({{x.images[0].url}}); background-position:center center;"></div>
+                        <div class="playlist-img" style="background:url({{x.images[0].url}}); background-position:center center; background-size:cover;"></div>
                     <h3>{{x.name}}</h3>
                    </a>
 
@@ -80,8 +78,15 @@
         </div>
 
     </div>
+<!--
 
     <h3>This is for Debug:</h3>
     <p ng-repeat='x in tracks'>{{x}}</p>
+-->
 
 </div>
+<script>
+    $(".toggleYourSongs").click(function(){
+        $(".your-songs").toggle();
+    });
+</script>
