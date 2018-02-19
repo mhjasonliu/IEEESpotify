@@ -12,8 +12,18 @@
     <input ng-model="newTrack"> <button ng-click="addTrack()">submit track</button>
     <p>{{form_feedback}}</p>
 
-    <iframe id = 'myplayer' src='https://open.spotify.com/embed?uri=spotify:track:5SE57ljOIUJ1ybL9U6CuBH'
-            frameborder='0' allowtransparency='true'></iframe>
+    <div id="wordsCloud" ng-controller="AppController as appCtrl">
+        <word-cloud words="appCtrl.words" width="appCtrl.width" height="appCtrl.height"
+                    padding="10"
+                    rotate="appCtrl.rotate"
+                    random="appCtrl.random"
+                    use-tooltip="appCtrl.useTooltip"
+                    use-transition="appCtrl.useTransition"
+                    on-click="appCtrl.wordClicked">
+        </word-cloud>
+    </div>
+
+
     <br/>
 
     <h3>YOUR SONGS -</h3>

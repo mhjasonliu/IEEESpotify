@@ -19,6 +19,7 @@
   "dependencies": {
     "angular-route": "^1.6.9",
     "angular-local-storage": "^0.7.1",
-    "html5-boilerplate": "^6.0.1"
+    "html5-boilerplate": "^6.0.1",
+    "angular-d3-word-cloud": "^0.5.3"
   }
 }
