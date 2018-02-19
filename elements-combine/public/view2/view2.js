@@ -12,15 +12,25 @@ angular.module('frontApp.view2', ['ngRoute', 'angular-d3-word-cloud'])
         $scope.access_token = param.access_token;
         $scope.refresh_token = param.refresh_token;
         $scope.track_data = [];
+        $scope.playlist_builder = [];
         if ($scope.access_token) {
             localStorageService.set('access_token', $scope.access_token);
             localStorageService.set('refresh_token', $scope.refresh_token);
         }
+
         localStorageService.bind($scope, 'access_token');
         localStorageService.bind($scope, 'refresh_token');
         localStorageService.bind($scope, 'display_name');
         localStorageService.bind($scope, 'userid');
         localStorageService.bind($scope, 'tracks');
+
+        $scope.$on('word_clicked',function(event,arg){
+            console.log("red alert");
+            if(arg && !$scope.playlist_builder.includes(arg))
+                $scope.playlist_builder.push(arg);
+            console.log($scope.playlist_builder);
+            $scope.$apply();
+        });
 
         function getHashParams() {
             var hashParams = {};
@@ -60,6 +70,7 @@ angular.module('frontApp.view2', ['ngRoute', 'angular-d3-word-cloud'])
                     if(InfoObject.first_artist.length > 17)
                         InfoObject.first_artist = trackObj.artists[0].name.substr(0,17)+"...";
                     $scope.track_data.push(InfoObject);
+                    localStorageService.set('track_data',$scope.track_data);
                 },function(error){
                     console.log("error occured:" +error.toString());
 
@@ -193,7 +204,8 @@ angular.module('frontApp.view2', ['ngRoute', 'angular-d3-word-cloud'])
 
 }])
 
-    .controller('AppController', ['$window', '$timeout', '$scope', '$http', 'localStorageService', function ($window, $timeout, $scope, $http, localStorageService) {
+    .controller('AppController', ['$window', '$timeout', '$scope', '$http', 'localStorageService',
+        function ($window, $timeout, $scope, $http, localStorageService) {
         var originWords = [];
         var maxWordCount = 1000;
         var self = this;
@@ -211,12 +223,14 @@ angular.module('frontApp.view2', ['ngRoute', 'angular-d3-word-cloud'])
         angular.element($window).bind('resize', resizeWordsCloud);
 
         localStorageService.bind($scope, 'display_name');
+        localStorageService.bind($scope,'tracks');
+        localStorageService.bind($scope,'track_data');
 
 
         $scope.startWordCloud = function () {
             console.log("generating a word cloud");
             var data = {
-                username: $scope.display_name,
+                username: $scope.display_name
     
             };
             var config = {};
@@ -279,7 +293,14 @@ angular.module('frontApp.view2', ['ngRoute', 'angular-d3-word-cloud'])
         }
 
         function wordClicked(word) {
-            alert('text: ' + word.text + ',size: ' + word.size);
+            var index = $scope.tracks.findIndex(function(element){
+                var strings_compressed = element.listOfStrings.join(' ');
+                return (new RegExp(word.text,'i')).test(strings_compressed);
+            });
+            //alert('text: ' + word.text + ',size: ' + word.size);
+
+            $scope.$emit('word_clicked',$scope.track_data[index]);
+
         }
     }
     ]);

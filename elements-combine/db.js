@@ -125,7 +125,7 @@ module.exports = {
                     var track = doc[0].listOfTracks[i];
                     for (var j = 0; j < track.listOfStrings.length; j++){
                         var result = track.listOfStrings[j].replace(/[^a-zA-Z0-9]/g, " ");
-                        text = text + result.toLowerCase();
+                        text = text +" " + result.toLowerCase();
                     }
                 }
 
