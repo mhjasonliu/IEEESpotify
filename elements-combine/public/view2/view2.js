@@ -191,104 +191,13 @@ angular.module('frontApp.view2', ['ngRoute', 'angular-d3-word-cloud'])
 
         };
 
-<<<<<<< HEAD
 }])
-
-
-    .controller('AppController', ['$window', '$timeout', function ($window, $timeout) {
-    var originWords = [];
-    var maxWordCount = 1000;
-    var self = this;
-    self.content = 'Somebody once told me the world is gonna roll me\n' +
-        'I ain\'t the sharpest tool in the shed\n' +
-        'She was looking kind of dumb with her finger and her thumb\n' +
-        'In the shape of an "L" on her forehead\n' +
-        'Well the years start coming and they don\'t stop coming\n' +
-        'Fed to the rules and I hit the ground running\n' +
-        'Didn\'t make sense not to live for fun\n' +
-        'Your brain gets smart but your head gets dumb\n' +
-        'So much to do, so much to see\n' +
-        'So what\'s wrong with taking the back streets?\n' +
-        'You\'ll never know if you don\'t go\n' +
-        'You\'ll never shine if you don\'t glow\n' +
-        'Hey now, you\'re an all-star, get your game on, go play\n' +
-        'Hey now, you\'re a rock star, get the show on, get paid\n' +
-        'And all that glitters is gold\n' +
-        'Only shooting stars break the mold\n' +
-        'It\'s a cool place and they say it gets colder\n';
-    self.customColor;
-    self.generateWords = generateWords;
-    self.padding = 8;
-    self.editPadding = 8;
-    self.useTooltip = true;
-    self.useTransition = true;
-    self.wordClicked = wordClicked;
-    self.words = [];
-    self.random = random;
-    generateWords();
-    angular.element($window).bind('resize', resizeWordsCloud);
-    /**
-     * generate words base on some content by split(/\s+/g) and sort descending
-     */
-    function generateWords() {
-        originWords = self.content.split(/\s+/g);
-        originWords = originWords.map(function(word) {
-            return {
-                text: word,
-                count: Math.floor(Math.random() * maxWordCount)
-            };
-        }).sort(function(a, b) {
-            return b.count - a.count;
-        });
-        resizeWordsCloud();
-    }
-    /**
-     * adjust words size base on width
-     */
-    function resizeWordsCloud() {
-        $timeout(function() {
-            var element = document.getElementById('wordsCloud');
-            var height = $window.innerHeight * 0.75;
-            element.style.height = height + 'px';
-            var width = element.getBoundingClientRect().width;
-            var maxCount = originWords[0].count;
-            var minCount = originWords[originWords.length - 1].count;
-            var maxWordSize = width * 0.15;
-            var minWordSize = maxWordSize / 5;
-            var spread = maxCount - minCount;
-            if (spread <= 0) spread = 1;
-            var step = (maxWordSize - minWordSize) / spread;
-            self.words = originWords.map(function(word) {
-                return {
-                    text: word.text,
-                    size: Math.round(maxWordSize - ((maxCount - word.count) * step)),
-                    color: self.customColor,
-                    tooltipText: word.text + ' tooltip'
-                };
-            });
-            self.width = width;
-            self.height = height;
-            self.padding = self.editPadding;
-            self.rotate = self.editRotate;
-        });
-    }
-
-    function random() {
-        return 0.4; // a constant value here will ensure the word position is fixed upon each page refresh.
-    }
-
-    function wordClicked(word) {
-        alert('text: ' + word.text + ',size: ' + word.size);
-    }
-}])
-
-
 
     .controller('AppController', ['$window', '$timeout', '$scope', '$http', 'localStorageService', function ($window, $timeout, $scope, $http, localStorageService) {
         var originWords = [];
         var maxWordCount = 1000;
         var self = this;
-        this.content = 'Yes? Showing up?';
+        this.content = 'Magic';
         this.customColor;
         this.generateWords = generateWords;
         this.padding = 8;
