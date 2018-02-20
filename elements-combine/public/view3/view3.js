@@ -49,7 +49,8 @@ angular.module('frontApp.view3', ['ngRoute'])
             $http.get(url,track_config).then(function(response){
                 console.log(response.data);
                 $scope.current_track = response.data;
-                $scope.current_track_embedded = "https://open.spotify.com/embed?uri="+$scope.current_track.uri;
+                $scope.current_track_image_url = response.data.album.images[0].url;
+                $scope.current_track_embedded = "https://open.spotify.com/embed?uri="+$scope.current_track.uri+"&theme=white";
             },function(error){
                 console.log("error occured:" +error);
             });
@@ -68,6 +69,7 @@ angular.module('frontApp.view3', ['ngRoute'])
         $scope.setNewWord = function(newString){
             if(!newString)
                 return;
+            $('#song-text-box').val('');
             console.log("Submitting new word: " + newString);
             console.log("requesting to add new word from front end to back end");
             var data = {
@@ -76,7 +78,7 @@ angular.module('frontApp.view3', ['ngRoute'])
                 current_track_uri: $scope.current_track.uri,
                 new_word: newString
             };
-
+            
             var config = {};
             $http.post('/associate_word',data,config)
                 .then(function success(response){

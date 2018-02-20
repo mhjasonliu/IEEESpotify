@@ -43,6 +43,7 @@ angular.module('frontApp.view2', ['ngRoute', 'angular-d3-word-cloud'])
             }
             return hashParams;
         }
+    
 
         //for each track in given array, apply get request to get track data from uri
         function extractTrackUriData(tracks) {
@@ -64,11 +65,11 @@ angular.module('frontApp.view2', ['ngRoute', 'angular-d3-word-cloud'])
                     InfoObject.name = trackObj.name;
                     InfoObject.first_artist = trackObj.artists[0].name;
                     InfoObject.imageurl = trackObj.album.images[0].url;
-                    if (InfoObject.name.length > 17){
-                        InfoObject.name = InfoObject.name.substr(0, 17) + "...";
+                    if (InfoObject.name.length > 21){
+                        InfoObject.name = InfoObject.name.substr(0, 21) + "...";
                     }
-                    if(InfoObject.first_artist.length > 17)
-                        InfoObject.first_artist = trackObj.artists[0].name.substr(0,17)+"...";
+                    if(InfoObject.first_artist.length > 21)
+                        InfoObject.first_artist = trackObj.artists[0].name.substr(0,21)+"...";
                     $scope.track_data.push(InfoObject);
                     localStorageService.set('track_data',$scope.track_data);
                 },function(error){
@@ -193,8 +194,8 @@ angular.module('frontApp.view2', ['ngRoute', 'angular-d3-word-cloud'])
                 $scope.all_playlist_data = playlists.items;
                 $scope.all_playlist_data.forEach(function(element)
                 {
-                    if (element.name.length > 17){
-                        element.name = element.name.substr(0, 17) + "...";
+                    if (element.name.length > 18){
+                        element.name = element.name.substr(0, 18) + "...";
                     }                       
                 });
                 console.log($scope.all_playlist_data);
@@ -213,7 +214,7 @@ angular.module('frontApp.view2', ['ngRoute', 'angular-d3-word-cloud'])
         var originWords = [];
         var maxWordCount = 1000;
         var self = this;
-        this.content = 'Magic';
+        this.content = '';
         this.customColor;
         this.generateWords = generateWords;
         this.padding = 8;
@@ -267,7 +268,7 @@ angular.module('frontApp.view2', ['ngRoute', 'angular-d3-word-cloud'])
         function resizeWordsCloud() {
             $timeout(function () {
                 var element = document.getElementById('wordsCloud');
-                var height = $window.innerHeight * 0.75;
+                var height = $window.innerHeight * 0.35;
                 element.style.height = height + 'px';
                 var width = element.getBoundingClientRect().width;
                 var maxCount = originWords[0].count;
@@ -281,7 +282,7 @@ angular.module('frontApp.view2', ['ngRoute', 'angular-d3-word-cloud'])
                     return {
                         text: word.text,
                         size: Math.round(maxWordSize - ((maxCount - word.count) * step)),
-                        color: self.customColor,
+                        color: "#139E8C",
                         tooltipText: word.text
                     };
                 });
