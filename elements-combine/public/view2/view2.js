@@ -302,8 +302,12 @@ angular.module('frontApp.view2', ['ngRoute', 'angular-d3-word-cloud'])
             });
             //alert('text: ' + word.text + ',size: ' + word.size);
 
-            $scope.$emit('word_clicked',$scope.track_data[index]);
+            var newThing = $scope.track_data[index];
+            if(!$scope.playlist_builder.includes(newThing))
+                $scope.playlist_builder.push(newThing);
+            $scope.$apply();
 
+            console.log($scope.playlist_builder);
         }
 
 
