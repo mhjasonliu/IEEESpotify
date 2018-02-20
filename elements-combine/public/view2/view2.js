@@ -6,8 +6,25 @@ angular.module('frontApp.view2', ['ngRoute', 'angular-d3-word-cloud'])
     .config(['$routeProvider', function ($routeProvider) {
     }])
 
-    .controller('View2Ctrl', ['$scope', '$http', 'localStorageService', function ($scope, $http, localStorageService) {
+    .controller('AppController', ['$scope', '$http', 'localStorageService', '$window', '$timeout', function ($scope, $http, localStorageService,$window,$timeout) {
         var param = getHashParams();
+
+        //this is wordcloud stuff
+        var originWords = [];
+        var maxWordCount = 1000;
+        var self = this;
+        this.content = '';
+        this.customColor;
+        this.generateWords = generateWords;
+        this.padding = 8;
+        this.editPadding = 8;
+        this.useTooltip = true;
+        this.useTransition = true;
+        this.wordClicked = wordClicked;
+        this.words = [];
+        this.random = random;
+        generateWords();
+        //end of wordcloud stuff
         //give scope its initial values
         $scope.access_token = param.access_token;
         $scope.refresh_token = param.refresh_token;
@@ -23,6 +40,8 @@ angular.module('frontApp.view2', ['ngRoute', 'angular-d3-word-cloud'])
         localStorageService.bind($scope, 'display_name');
         localStorageService.bind($scope, 'userid');
         localStorageService.bind($scope, 'tracks');
+        angular.element($window).bind('resize', resizeWordsCloud);
+
 
         $scope.$on('word_clicked',function(event,arg){
             console.log("red alert");
@@ -105,6 +124,7 @@ angular.module('frontApp.view2', ['ngRoute', 'angular-d3-word-cloud'])
                     $http.get("/dblogin", dbconfig).then(function (response) {
                         $scope.tracks = response.data.trackList;
                         extractTrackUriData($scope.tracks);
+                        $scope.startWordCloud();
                         $scope.getUserPlaylists();
                         localStorageService.set('tracks',$scope.tracks);
                     });
@@ -202,37 +222,13 @@ angular.module('frontApp.view2', ['ngRoute', 'angular-d3-word-cloud'])
             });
 
         };
-
-}])
-
-    .controller('AppController', ['$window', '$timeout', '$scope', '$http', 'localStorageService',
-        function ($window, $timeout, $scope, $http, localStorageService) {
-        var originWords = [];
-        var maxWordCount = 1000;
-        var self = this;
-        this.content = '';
-        this.customColor;
-        this.generateWords = generateWords;
-        this.padding = 8;
-        this.editPadding = 8;
-        this.useTooltip = true;
-        this.useTransition = true;
-        this.wordClicked = wordClicked;
-        this.words = [];
-        this.random = random;
-        generateWords();
-        angular.element($window).bind('resize', resizeWordsCloud);
-
-        localStorageService.bind($scope, 'display_name');
-        localStorageService.bind($scope,'tracks');
-        localStorageService.bind($scope,'track_data');
-
+/********************************************************************************************************************/
 
         $scope.startWordCloud = function () {
             console.log("generating a word cloud");
             var data = {
                 username: $scope.display_name
-    
+
             };
             var config = {};
 
@@ -241,6 +237,7 @@ angular.module('frontApp.view2', ['ngRoute', 'angular-d3-word-cloud'])
                     console.log("Hello" + response.data.text);
                     self.content = response.data.text;
                     //console.log(self.content);
+
                     generateWords();
 
                 }, function error(response) {
@@ -250,6 +247,7 @@ angular.module('frontApp.view2', ['ngRoute', 'angular-d3-word-cloud'])
 
 
         function generateWords() {
+            console.log("Displaying words onto the word cloud");
             originWords = self.content.split(/\s+/g);
             originWords = originWords.map(function (word) {
                 return {
@@ -260,7 +258,7 @@ angular.module('frontApp.view2', ['ngRoute', 'angular-d3-word-cloud'])
                 return b.count - a.count;
             });
             resizeWordsCloud();
-        };
+        }
         function resizeWordsCloud() {
             $timeout(function () {
                 var element = document.getElementById('wordsCloud');
@@ -303,7 +301,10 @@ angular.module('frontApp.view2', ['ngRoute', 'angular-d3-word-cloud'])
             $scope.$emit('word_clicked',$scope.track_data[index]);
 
         }
-    }
-    ]);
+
+
+}]);
+
+
 
 

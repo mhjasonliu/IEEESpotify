@@ -119,7 +119,8 @@ module.exports = {
                     return console.log("No contents found");
                 }
 
-                
+
+
                 var len = doc[0].listOfTracks.length;
                 for (var i = 0; i < len; i++){
                     var track = doc[0].listOfTracks[i];
@@ -127,10 +128,6 @@ module.exports = {
                         var result = track.listOfStrings[j].replace(/[^a-zA-Z0-9]/g, " ");
                         text = text +" " + result.toLowerCase();
                     }
-                }
-
-                if (text == ""){
-                    return alert("It looks like you haven't written anything yet....");
                 }
 
                 console.log(text);
