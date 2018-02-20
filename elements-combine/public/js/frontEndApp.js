@@ -16,7 +16,7 @@ angular.module('frontApp',['ngRoute',
             controller: 'View1Ctrl'
         }).when('/view2', {
             templateUrl: 'view2/view2.html',
-            controller: 'View2Ctrl'
+            controller: 'AppController'
         }).when('/view3', {
             templateUrl: 'view3/view3.html',
             controller: 'View3Ctrl'

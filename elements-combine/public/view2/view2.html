@@ -2,7 +2,7 @@
     <a href="#!/view2" class="ml4">Web App Name</a>
 </header>
 
-<div ng-app="frontApp.view2" ng-controller="View2Ctrl" class="mv5 ml5" id="home">
+<div ng-app="frontApp.view2" ng-controller="AppController as appCtrl" class="mv5 ml5" id="home">
     <div ng-init="databaseLogin()"></div>
     <h1 class="b">Hello, {{display_name}}.</h1>
 <!--
@@ -13,13 +13,11 @@
     <input ng-model="newTrack"> <button ng-click="addTrack()">submit track</button>
     <p>{{form_feedback}}</p>
 -->
-
-    <div id="wordsCloud" ng-controller="AppController as appCtrl" ng-init = "startWordCloud()">            
+    <button ng-click="startWordCloud()">DEBUG WORD CLOUD</button>
+    <div id="wordsCloud">
             <word-cloud words="appCtrl.words" width="appCtrl.width" height="appCtrl.height" padding="5" rotate="appCtrl.rotate" use-tooltip="appCtrl.useTooltip"
                 random="appCtrl.random" use-transition="appCtrl.useTransition" on-click="appCtrl.wordClicked">
             </word-cloud>
-
-
     </div>
 
 <!--
