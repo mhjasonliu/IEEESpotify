@@ -138,6 +138,10 @@ angular.module('frontApp.view2', ['ngRoute', 'angular-d3-word-cloud'])
                 $http.post('/add_new_track',data,config)
                     .then(function success(response){
                         $scope.form_feedback = "Track addition successful.";
+                        if($scope.tracks == response.data.tracklist){
+                            console.log("Track is already in database. Continuing execution");
+                            return;
+                        }
                         $scope.tracks=response.data.trackList;
                         var newObject = {track:{
                                 uri: $scope.newTrack
