@@ -30,6 +30,10 @@
             <span ng-repeat= "x in current_track_strings">
                 <h2><i>You said...</i></h2>
                 <p>{{x}}</p>
+                <button ng-click="removeWord(x)">remove word</button>
+            </span>
+            <span ng-repeat="x in current_track_metadata">
+                <p>{{x}}</p>
             </span>
         </div>
     </div>

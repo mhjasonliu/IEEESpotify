@@ -9,22 +9,7 @@ angular.module('frontApp.view2', ['ngRoute', 'angular-d3-word-cloud'])
     .controller('AppController', ['$scope', '$http', 'localStorageService', '$window', '$timeout', function ($scope, $http, localStorageService,$window,$timeout) {
         var param = getHashParams();
 
-        //this is wordcloud stuff
-        var originWords = [];
-        var maxWordCount = 1000;
-        var self = this;
-        this.content = '';
-        this.customColor;
-        this.generateWords = generateWords;
-        this.padding = 8;
-        this.editPadding = 8;
-        this.useTooltip = true;
-        this.useTransition = true;
-        this.wordClicked = wordClicked;
-        this.words = [];
-        this.random = random;
-        generateWords();
-        //end of wordcloud stuff
+
         //give scope its initial values
         $scope.access_token = param.access_token;
         $scope.refresh_token = param.refresh_token;
@@ -40,7 +25,7 @@ angular.module('frontApp.view2', ['ngRoute', 'angular-d3-word-cloud'])
         localStorageService.bind($scope, 'display_name');
         localStorageService.bind($scope, 'userid');
         localStorageService.bind($scope, 'tracks');
-        angular.element($window).bind('resize', resizeWordsCloud);
+
 
 
         $scope.$on('word_clicked',function(event,arg){
@@ -228,6 +213,24 @@ angular.module('frontApp.view2', ['ngRoute', 'angular-d3-word-cloud'])
         };
 /********************************************************************************************************************/
 
+
+//this is wordcloud stuff
+        var originWords = [];
+        var maxWordCount = 1000;
+        var self = this;
+        this.content = '';
+        this.customColor;
+        this.generateWords = generateWords;
+        this.padding = 8;
+        this.editPadding = 8;
+        this.useTooltip = true;
+        this.useTransition = true;
+        this.wordClicked = wordClicked;
+        this.words = [];
+        this.random = random;
+        generateWords();
+        angular.element($window).bind('resize', resizeWordsCloud);
+
         $scope.startWordCloud = function () {
             console.log("generating a word cloud");
             var data = {
@@ -266,7 +269,7 @@ angular.module('frontApp.view2', ['ngRoute', 'angular-d3-word-cloud'])
         function resizeWordsCloud() {
             $timeout(function () {
                 var element = document.getElementById('wordsCloud');
-                var height = $window.innerHeight * 0.35;
+                var height = $window.innerHeight * 0.75;
                 element.style.height = height + 'px';
                 var width = element.getBoundingClientRect().width;
                 var maxCount = originWords[0].count;

@@ -9,7 +9,8 @@ var Schema = mongoose.Schema;
 
 var trackSchema = new Schema({
     track: Object,
-    listOfStrings: [String]
+    listOfStrings: [String],
+    metaData: [String]
 });
 
 var dbEntrySchema = new Schema({
@@ -88,9 +89,9 @@ module.exports = {
                     trackObj.uri = newItem;
 
                     if (doc.listOfTracks.find(function (x) {
-                            return x.track.uri == newItem
+                            return x.track.uri === newItem
                         }) === undefined)
-                        doc.listOfTracks.push({track: trackObj, listOfStrings: []});
+                        doc.listOfTracks.push({track: trackObj, listOfStrings: [], metaData: []});
                 });
 
                 doc.save(function(err){
@@ -145,6 +146,8 @@ module.exports = {
                 trackuri = req.body.current_track_uri,
                 new_word = req.body.new_word;
 
+            var right_now = new Date();
+
             console.log("Attempting to associate word");
             console.log(userlogin,userID,trackuri,new_word);
 
@@ -163,20 +166,24 @@ module.exports = {
                     return element.track.uri == trackuri});
                 if(idx != -1) {
                     if (doc.listOfTracks[idx].listOfStrings.find(function (x) {
-                            return new_word == x;
+                            return new_word === x;
                         }) === undefined) {
+
                         doc.listOfTracks[idx].listOfStrings.push(new_word);
+                        doc.listOfTracks[idx].metaData.push(right_now.toString());
                     }
                 }
                 else {
+
                     var trackObj = {};
                     trackObj.uri = trackuri;
                     var listOfStrings = [];
                     listOfStrings.push(new_word);
 
-                    doc.listOfTracks.push({track: trackObj, listOfStrings: listOfStrings});
+                    doc.listOfTracks.push({track: trackObj, listOfStrings: listOfStrings, metaData: [right_now.toString()]});
                 }
 
+                console.log("foo3");
                 doc.save(function(err){
                     if(err)
                         return console.log(err);
@@ -184,7 +191,8 @@ module.exports = {
                         console.log("update successful");
                 });
                 res.send({
-                    'trackList': doc.listOfTracks
+                    'trackList': doc.listOfTracks,
+                    'current_time': right_now.toString()
                 });
             });
 
@@ -209,7 +217,7 @@ module.exports = {
                 }
 
                 var idx = doc.listOfTracks.findIndex(function(element) {
-                    return element.track.uri == trackuri});
+                    return element.track.uri === trackuri});
                 if(idx != -1) {
                     doc.listOfTracks.splice(idx, 1); //remove 1 item from the i'th index
                 }
@@ -224,6 +232,51 @@ module.exports = {
                     'trackList': doc.listOfTracks
                 });
             });
+
+        });
+
+        app.post('/remove_word',function(req,res){
+            var userlogin = req.body.username,
+                userID = req.body.userID,
+                trackuri = req.body.current_track_uri,
+                current_word = req.body.current_word;
+
+            console.log("Attempting to remove word from a track");
+            console.log(userlogin,userID,trackuri,current_word);
+
+            DBEntry.findOne({username:userlogin,userID:userID},function(err, doc){
+                if(err) return console.log(err);
+
+                if(doc === null) {
+                    res.send({
+                        'err': "You must be logged in to access."
+                    });
+                    return;
+                }
+
+                var idx = doc.listOfTracks.findIndex(function(element) {
+                    return element.track.uri === trackuri});
+                if(idx != -1) {
+                    var string_idx = doc.listOfTracks[idx].listOfStrings.indexOf(current_word);
+                    if(string_idx != -1) {
+                        doc.listOfTracks[idx].listOfStrings.splice(string_idx, 1);    //remove 1 element from ith index
+                        doc.listOfTracks[idx].metaData.splice(string_idx,1);
+                    }
+                }
+
+
+                doc.save(function(err){
+                    if(err)
+                        return console.log(err);
+                    else
+                        console.log("removal successful");
+                });
+                res.send({
+                    'trackList': doc.listOfTracks
+                });
+
+            });
+
 
         });
 

@@ -55,15 +55,21 @@ angular.module('frontApp.view3', ['ngRoute'])
                 console.log("error occured:" +error);
             });
             //get the current track's strings. These should be from the binding in the local storage
-            $scope.current_track_strings = getTrackStrings();
+            var stringinfo = getTrackStrings();
+            $scope.current_track_strings = stringinfo.listOfStrings;
+            $scope.current_track_metadata = stringinfo.metaData;
         }
 
         function getTrackStrings(){
             var currentUri = param.trackuri;
 
-            return $scope.tracks.find(function(x){
-                return x.track.uri == currentUri;
-            }).listOfStrings;
+            var trackFound = $scope.tracks.find(function(x){
+                return x.track.uri === currentUri;
+            });
+            return {
+                listOfStrings: trackFound.listOfStrings,
+                metaData: trackFound.metaData
+            };
         }
 
         $scope.setNewWord = function(newString){
@@ -84,6 +90,7 @@ angular.module('frontApp.view3', ['ngRoute'])
                 .then(function success(response){
                     $scope.tracks=response.data.trackList;
                     $scope.current_track_strings.push(newString);
+                    $scope.current_track_metadata.push(response.data.current_time);
                 },function error(response){
                     console.log("error occurred in associating word");
                 });
@@ -101,13 +108,39 @@ angular.module('frontApp.view3', ['ngRoute'])
 
             $http.post('/remove_track',data,config)
                 .then(function success(response){
-                    console.log("removal successful");
+                    console.log("track removal successful");
                     $scope.tracks=response.data.trackList;
                     window.location.href= '#!/view2';
 
                 },function error(response){
                     console.log("error occurred in removing track");
                 });
+
+        };
+
+        $scope.removeWord = function(current_word){
+            console.log("Removing string from current track in database");
+
+            var data = {
+                username: $scope.display_name,
+                userID: $scope.userid,
+                current_track_uri: $scope.current_track.uri,
+                current_word : current_word
+            };
+
+            var config = {};
+
+            $http.post('/remove_word',data,config)
+                .then(function success(response){
+                    console.log("word removal successful");
+                    $scope.tracks = response.data.trackList;
+                    var stringinfo = getTrackStrings();
+                    $scope.current_track_strings = stringinfo.listOfStrings;
+                    $scope.current_track_metadata = stringinfo.metaData;
+                    },
+                    function error(response){
+                    console.log("error occured in removing word");
+                    });
 
         };
 
