@@ -183,7 +183,6 @@ module.exports = {
                     doc.listOfTracks.push({track: trackObj, listOfStrings: listOfStrings, metaData: [right_now.toString()]});
                 }
 
-                console.log("foo3");
                 doc.save(function(err){
                     if(err)
                         return console.log(err);

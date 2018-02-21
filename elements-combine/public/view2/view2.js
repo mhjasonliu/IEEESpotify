@@ -252,14 +252,35 @@ angular.module('frontApp.view2', ['ngRoute', 'angular-d3-word-cloud'])
                 });
         }
 
+        function getFrequencyArray(wordsArray){
+            var wordsMap = {};
+            /*
+              wordsMap = {
+                'Oh': 2,
+                'Feelin': 1,
+                ...
+              }
+            */
+            wordsArray.forEach(function (key) {
+                if (wordsMap.hasOwnProperty(key)) {
+                    wordsMap[key]++;
+                } else {
+                    wordsMap[key] = 1;
+                }
+            });
+
+            return wordsMap;
+        }
 
         function generateWords() {
             console.log("Displaying words onto the word cloud");
             originWords = self.content.split(/\s+/g);
-            originWords = originWords.map(function (word) {
+            var wordsMap = getFrequencyArray(originWords);
+            originWords = Object.keys(wordsMap).map(function (key) {
                 return {
-                    text: word,
-                    count: Math.floor(Math.random() * maxWordCount)
+                    text: key,
+                    count: Math.min(wordsMap[key],maxWordCount)
+                    //count: Math.floor(Math.random() * maxWordCount)
                 };
             }).sort(function (a, b) {
                 return b.count - a.count;
@@ -284,7 +305,7 @@ angular.module('frontApp.view2', ['ngRoute', 'angular-d3-word-cloud'])
                         text: word.text,
                         size: Math.round(maxWordSize - ((maxCount - word.count) * step)),
                         color: "#139E8C",
-                        tooltipText: word.text
+                        tooltipText: word.count
                     };
                 });
                 self.width = width;
