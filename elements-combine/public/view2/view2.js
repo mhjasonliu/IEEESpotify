@@ -25,6 +25,7 @@ angular.module('frontApp.view2', ['ngRoute', 'angular-d3-word-cloud'])
         localStorageService.bind($scope, 'display_name');
         localStorageService.bind($scope, 'userid');
         localStorageService.bind($scope, 'tracks');
+        localStorageService.bind($scope, 'wordsMap');
 
 
 
@@ -108,6 +109,7 @@ angular.module('frontApp.view2', ['ngRoute', 'angular-d3-word-cloud'])
 
                     $http.get("/dblogin", dbconfig).then(function (response) {
                         $scope.tracks = response.data.trackList;
+                        $scope.wordsMap = response.data.wordsMap;
                         extractTrackUriData($scope.tracks);
                         $scope.startWordCloud();
                         $scope.getUserPlaylists();
@@ -228,7 +230,7 @@ angular.module('frontApp.view2', ['ngRoute', 'angular-d3-word-cloud'])
         this.wordClicked = wordClicked;
         this.words = [];
         this.random = random;
-        generateWords();
+        //generateWords();
         angular.element($window).bind('resize', resizeWordsCloud);
 
         $scope.startWordCloud = function () {
@@ -241,8 +243,8 @@ angular.module('frontApp.view2', ['ngRoute', 'angular-d3-word-cloud'])
 
             $http.post('/word_cloud', data, config)
                 .then(function success(response) {
-                    console.log("Hello" + response.data.text);
                     self.content = response.data.text;
+                    $scope.wordsMap = response.data.wordsMap;
                     //console.log(self.content);
 
                     generateWords();
@@ -274,8 +276,7 @@ angular.module('frontApp.view2', ['ngRoute', 'angular-d3-word-cloud'])
 
         function generateWords() {
             console.log("Displaying words onto the word cloud");
-            originWords = self.content.split(/\s+/g);
-            var wordsMap = getFrequencyArray(originWords);
+            var wordsMap = $scope.wordsMap;
             originWords = Object.keys(wordsMap).map(function (key) {
                 return {
                     text: key,
@@ -293,8 +294,11 @@ angular.module('frontApp.view2', ['ngRoute', 'angular-d3-word-cloud'])
                 var height = $window.innerHeight * 0.75;
                 element.style.height = height + 'px';
                 var width = element.getBoundingClientRect().width;
-                var maxCount = originWords[0].count;
-                var minCount = originWords[originWords.length - 1].count;
+                var maxCount, minCount;
+                if(originWords[0]) {
+                    maxCount = originWords[0].count;
+                    minCount = originWords[originWords.length - 1].count;
+                }
                 var maxWordSize = width * 0.15;
                 var minWordSize = maxWordSize / 5;
                 var spread = maxCount - minCount;

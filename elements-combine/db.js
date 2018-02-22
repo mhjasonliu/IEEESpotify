@@ -17,7 +17,8 @@ var dbEntrySchema = new Schema({
     username: String,
     userID: String,
     salt: String,
-    listOfTracks: [trackSchema]
+    listOfTracks: [trackSchema],
+    wordsMap: Object
 });
 var DBEntry = mongoose.model('DBEntry',dbEntrySchema);
 
@@ -27,10 +28,48 @@ var addNewEntry = function(newusername,newuserID) {
     newEntry.userID = newuserID;
     newEntry.salt = hasher.genString(16);
     newEntry.listOfTracks = [];
+    newEntry.wordsMap = {};
     newEntry.save(function(err){
         if(err) return console.log(err);
     });
     return newEntry;
+}
+
+function getWordsArray(listOfTracks){
+    var len = listOfTracks.length;
+    var wordsArray = [];
+    var text = "";
+    for (var i = 0; i < len; i++){
+        var track = listOfTracks[i];
+        for (var j = 0; j < track.listOfStrings.length; j++){
+            var result = track.listOfStrings[j].replace(/[^a-zA-Z0-9]/g, " ").toLowerCase();
+            text += result + " ";
+        }
+    }
+    wordsArray = text.split(/\s+/g);
+    //console.log(wordsArray);
+    return wordsArray;
+}
+
+function getWordsMap(wordsArray){
+    var wordsMap = {};
+    /*
+      wordsMap = {
+        'Oh': 2,
+        'Feelin': 1,
+        ...
+      }
+    */
+    wordsArray.forEach(function (key) {
+        if (wordsMap.hasOwnProperty(key)) {
+            wordsMap[key]++;
+        } else {
+            wordsMap[key] = 1;
+        }
+    });
+
+    console.log(wordsMap);
+    return wordsMap;
 }
 
 module.exports = {
@@ -53,7 +92,8 @@ module.exports = {
                 else {
                     console.log("user found");
                     res.send({
-                        'trackList' : doc[0].listOfTracks
+                        'trackList' : doc[0].listOfTracks,
+                        'wordsMap': doc[0].wordsMap
                     });
                 }
             });
@@ -99,7 +139,8 @@ module.exports = {
                     console.log("update successful");
                 });
                 res.send({
-                    'trackList': doc.listOfTracks
+                    'trackList': doc.listOfTracks,
+                    'wordsMap': doc.wordsMap
                 });
             });
 
@@ -120,8 +161,7 @@ module.exports = {
                     return console.log("No contents found");
                 }
 
-
-
+                /*  Old Code for Word map
                 var len = doc[0].listOfTracks.length;
                 for (var i = 0; i < len; i++){
                     var track = doc[0].listOfTracks[i];
@@ -130,11 +170,12 @@ module.exports = {
                         text = text +" " + result.toLowerCase();
                     }
                 }
+                */
 
                 console.log(text);
 
                 res.send({
-                    'text': text
+                    'wordsMap': doc[0].wordsMap
                 });
             });
 
@@ -183,6 +224,9 @@ module.exports = {
                     doc.listOfTracks.push({track: trackObj, listOfStrings: listOfStrings, metaData: [right_now.toString()]});
                 }
 
+                //update the words map
+                doc.wordsMap = getWordsMap(getWordsArray(doc.listOfTracks));
+
                 doc.save(function(err){
                     if(err)
                         return console.log(err);
@@ -191,7 +235,8 @@ module.exports = {
                 });
                 res.send({
                     'trackList': doc.listOfTracks,
-                    'current_time': right_now.toString()
+                    'current_time': right_now.toString(),
+                    'wordsMap': doc.wordsMap
                 });
             });
 
@@ -221,6 +266,8 @@ module.exports = {
                     doc.listOfTracks.splice(idx, 1); //remove 1 item from the i'th index
                 }
 
+                doc.wordsMap = getWordsMap(getWordsArray(doc.listOfTracks));
+
                 doc.save(function(err){
                     if(err)
                         return console.log(err);
@@ -228,7 +275,8 @@ module.exports = {
                         console.log("removal successful");
                 });
                 res.send({
-                    'trackList': doc.listOfTracks
+                    'trackList': doc.listOfTracks,
+                    'wordsMap': doc.wordsMap
                 });
             });
 
@@ -263,6 +311,8 @@ module.exports = {
                     }
                 }
 
+                //update the words map
+                doc.wordsMap = getWordsMap(getWordsArray(doc.listOfTracks));
 
                 doc.save(function(err){
                     if(err)
@@ -271,7 +321,8 @@ module.exports = {
                         console.log("removal successful");
                 });
                 res.send({
-                    'trackList': doc.listOfTracks
+                    'trackList': doc.listOfTracks,
+                    'wordsMap': doc.wordsMap
                 });
 
             });
