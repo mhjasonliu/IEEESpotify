@@ -22,6 +22,9 @@
     <p>cloud debug</p>
     </p>{{cloud_debug}}</p>
 
+
+    <input type="text" ng-model="wordQuery">
+    <button ng-click="searchForWord(wordQuery)">Search for Word</button>
 <!--
     <iframe id='myplayer' src='https://open.spotify.com/embed?uri=spotify:track:5SE57ljOIUJ1ybL9U6CuBH' frameborder='0' allowtransparency='true'></iframe>
     <br/>
@@ -49,7 +52,7 @@
     <h3>YOUR SONGS - <a class="togglesongs" onclick="toggleYourSongs('yoursongs', 'songs-button')"><i class="fa fa-2x fa-chevron-down toggle-button" id="songs-button"></i></a></h3>
     <div class="container" id="yoursongs">
         <div class="row">
-            <div class="col-md-3" ng-repeat="x in track_data">
+            <div class="col-md-3" ng-repeat="x in track_data" ng-if="!x.isHidden">
                 <div class="song-card" id="song-card">
                     <a ng-href="{{x.redirect}}">
                         <img id="track image" ng-src="{{x.imageurl}}">

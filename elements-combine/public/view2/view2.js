@@ -75,6 +75,7 @@ angular.module('frontApp.view2', ['ngRoute', 'angular-d3-word-cloud'])
                     }
                     if(InfoObject.first_artist.length > 21)
                         InfoObject.first_artist = trackObj.artists[0].name.substr(0,21)+"...";
+                    InfoObject.isHidden = false;
                     $scope.track_data.push(InfoObject);
                     localStorageService.set('track_data',$scope.track_data);
                 },function(error){
@@ -213,6 +214,19 @@ angular.module('frontApp.view2', ['ngRoute', 'angular-d3-word-cloud'])
             });
 
         };
+
+        $scope.searchForWord = function(word){
+            $scope.track_data.forEach(function(track_data_element){
+               var particular_track = $scope.tracks.find(function(elt){
+                   return track_data_element.uri === elt.track.uri;
+               });
+               var strings_compressed = particular_track.listOfStrings.join(" ");
+               track_data_element.isHidden = !((new RegExp(word,'i')).test(strings_compressed));
+            });
+
+            console.log($scope.track_data);
+        };
+
 /********************************************************************************************************************/
 
 
@@ -307,6 +321,7 @@ angular.module('frontApp.view2', ['ngRoute', 'angular-d3-word-cloud'])
                 self.words = originWords.map(function (word) {
                     return {
                         text: word.text,
+                        //size: Math.round(maxWordSize - ((maxCount - word.count) * step)),
                         size: Math.round(maxWordSize - ((maxCount - word.count) * step)),
                         color: "#139E8C",
                         tooltipText: word.count
