@@ -63,7 +63,7 @@ a, a:hover, a:active, a:visited, a:focus {
 
 header{
     position:relative;
-    z-index:99;
+    z-index:9;
     width:100%;
     height:70px;
     background: #139e8c;
@@ -247,6 +247,9 @@ header a{
 #wordsCloud{
     font-family: 'Karla', sans-serif;
     font-weight:400;
+    top: 0px;
+    right: -320px;
+    position:absolute;
 }
 
 .backsplash{
@@ -305,4 +308,49 @@ footer a{
 .red{
     color:red;
     opacity:.75;
+}
+
+.search-songs{
+    width:100%;
+    border:0;
+    border-radius:40px;
+    height:45px;
+    padding:15px;
+    margin-top:-15px;
+    margin-bottom:15px;
+    font-family: 'Karla', sans-serif;
+    z-index:9;
+    position:relative;
+    box-shadow:2px 2px 7px rgba(0,0,0,.2);
+}
+
+.search-songs:focus{
+    border:0;
+    outline:0;
+    box-shadow:0;
+}
+
+.search-button{
+    float:right;
+    margin-right:10px;
+    background: rgba(19, 158, 140, 1);
+    position:relative;
+    z-index:10;
+    padding:10px 20px;
+    border:0;
+    height:30px;
+    border-radius: 30px;
+    margin-top:-52px;
+    line-height:5px;
+    color:#fff;
+    font-family: "Karla", sans-serif;
+}
+
+.search-button:focus{
+    outline:0;
+    border:0;
+}
+
+#home{
+    padding:50px;
 }

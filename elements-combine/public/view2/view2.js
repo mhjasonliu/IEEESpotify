@@ -291,6 +291,7 @@ angular.module('frontApp.view2', ['ngRoute', 'angular-d3-word-cloud'])
         function generateWords() {
             console.log("Displaying words onto the word cloud");
             var wordsMap = $scope.wordsMap;
+            console.log(wordsMap);
             originWords = Object.keys(wordsMap).map(function (key) {
                 return {
                     text: key,
@@ -305,9 +306,9 @@ angular.module('frontApp.view2', ['ngRoute', 'angular-d3-word-cloud'])
         function resizeWordsCloud() {
             $timeout(function () {
                 var element = document.getElementById('wordsCloud');
-                var height = $window.innerHeight * 0.75;
+                var height = $window.innerHeight * 0.7;
                 element.style.height = height + 'px';
-                var width = element.getBoundingClientRect().width;
+                var width = $window.innerWidth;
                 var maxCount, minCount;
                 if(originWords[0]) {
                     maxCount = originWords[0].count;
@@ -323,7 +324,7 @@ angular.module('frontApp.view2', ['ngRoute', 'angular-d3-word-cloud'])
                         text: word.text,
                         //size: Math.round(maxWordSize - ((maxCount - word.count) * step)),
                         size: Math.round(maxWordSize - ((maxCount - word.count) * step)),
-                        color: "#139E8C",
+                        color: "rgba(9, 138, 130," + Math.min(Math.max(word.count / maxCount, .3), 1) + ")",
                         tooltipText: word.count
                     };
                 });
