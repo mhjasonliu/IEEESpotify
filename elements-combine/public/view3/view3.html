@@ -27,14 +27,13 @@
         <div class="comment-card">
             <textarea id="song-text-box" ng-model="newWord" placeholder="put your comments here..." rows="4"></textarea>
             <button class="song-note-button" ng-click="setNewWord(newWord)">Submit</button>
+            <h2><i>You said...</i></h2>
             <span ng-repeat= "x in current_track_strings">
-                <h2><i>You said...</i></h2>
-                <p>{{x}}</p>
-                <button ng-click="removeWord(x)">remove word</button>
+                <p>{{x}}  <i class="fa fa-times-circle-o delete" ng-click="removeWord(x)"></i> <br/>
+                    {{current_track_metadata[$index]}}
+                </p>
             </span>
-            <span ng-repeat="x in current_track_metadata">
-                <p>{{x}}</p>
-            </span>
+
         </div>
     </div>
 </div>

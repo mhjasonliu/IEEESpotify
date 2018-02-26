@@ -4,6 +4,11 @@ html, body{
     overflow-x: hidden;
 }
 
+body[title]{
+    z-index:999999;
+    position:absolute;
+}
+
 a{
     text-decoration: none;
     color: #139e8c;
@@ -354,3 +359,21 @@ footer a{
 #home{
     padding:50px;
 }
+
+.delete{
+    float:right;
+}
+
+.more-button{
+    background:#139E8C;
+    border:0;
+    padding:10px 100px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    margin: 30px auto;
+    color:#fff;
+    border-radius:25px;
+    height:35px;
+    font-family: 'Karla', sans-serif;
+}
+

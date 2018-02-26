@@ -20,7 +20,7 @@
     </div>
 
     <input type="text" ng-model="wordQuery" class="search-songs" placeholder="Search through your previous notes">
-    <button ng-click="searchForWord(wordQuery)" class="search-button">search</button>
+    <button ng-click="searchForWord(wordQuery)" class="search-button">SEARCH</button>
 <!--
     <iframe id='myplayer' src='https://open.spotify.com/embed?uri=spotify:track:5SE57ljOIUJ1ybL9U6CuBH' frameborder='0' allowtransparency='true'></iframe>
     <br/>
@@ -57,9 +57,10 @@
                 </div>
             </div>
         </div>
-
+        <div style="text-align:center">
+            <button ng-click="getUserPlaylists()" class="more-button">+ Get More Of Your Playlists</button>
+        </div>
     </div>
-    <button ng-click="getUserPlaylists()">Get More Of Your Playlists</button>
     
 <!--
 
