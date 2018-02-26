@@ -15,6 +15,8 @@ angular.module('frontApp.view2', ['ngRoute', 'angular-d3-word-cloud'])
         $scope.refresh_token = param.refresh_token;
         $scope.track_data = [];
         $scope.playlist_builder = [];
+        $scope.all_playlist_data = [];
+        $scope.offset = 0;
         if ($scope.access_token) {
             localStorageService.set('access_token', $scope.access_token);
             localStorageService.set('refresh_token', $scope.refresh_token);
@@ -193,13 +195,18 @@ angular.module('frontApp.view2', ['ngRoute', 'angular-d3-word-cloud'])
 
                 headers: {
                     'Authorization': 'Bearer ' + $scope.access_token
+                },
+                params:{
+                    offset: $scope.offset
                 }
+
             };
+
+            $scope.offset += 20;
 
             $http.get(url, config).then(function (response) {
                 var playlists = response.data;
-                var next_url = playlists.items[0].href;
-                $scope.all_playlist_data = playlists.items;
+                $scope.all_playlist_data=$scope.all_playlist_data.concat(playlists.items);
                 $scope.all_playlist_data.forEach(function(element)
                 {
                     if (element.name.length > 18){
