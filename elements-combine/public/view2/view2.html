@@ -2,7 +2,7 @@
     <a href="#!/view2" class="ml4">Web App Name</a>
 </header>
 
-<div ng-app="frontApp.view2" ng-controller="AppController as appCtrl" class="mv5 ml5" id="home">
+<div ng-app="frontApp.view2" ng-controller="AppController as appCtrl" id="home">
     <div ng-init="databaseLogin()"></div>
     <h1 class="b">Hello, {{display_name}}.</h1>
 <!--
@@ -13,40 +13,18 @@
     <input ng-model="newTrack"> <button ng-click="addTrack()">submit track</button>
     <p>{{form_feedback}}</p>
 -->
-    <button ng-click="startWordCloud()">DEBUG WORD CLOUD</button>
     <div id="wordsCloud">
             <word-cloud words="appCtrl.words" width="appCtrl.width" height="appCtrl.height" padding="5" rotate="appCtrl.rotate" use-tooltip="appCtrl.useTooltip"
                 random="appCtrl.random" use-transition="appCtrl.useTransition" on-click="appCtrl.wordClicked">
             </word-cloud>
     </div>
-    <p>cloud debug</p>
-    </p>{{cloud_debug}}</p>
 
-
-    <input type="text" ng-model="wordQuery">
-    <button ng-click="searchForWord(wordQuery)">Search for Word</button>
+    <input type="text" ng-model="wordQuery" class="search-songs" placeholder="Search through your previous notes">
+    <button ng-click="searchForWord(wordQuery)" class="search-button">search</button>
 <!--
     <iframe id='myplayer' src='https://open.spotify.com/embed?uri=spotify:track:5SE57ljOIUJ1ybL9U6CuBH' frameborder='0' allowtransparency='true'></iframe>
     <br/>
 -->
-
-
-    <h3>SONGS FROM YOUR WORD CLOUD - <a class="togglesongs" onclick="toggleYourSongs('your-words', 'words-button')"><i class="fa fa-2x fa-chevron-down toggle-button" id="words-button"></i></h3>
-        <div class="container" id="your-words">
-            <div class="row">
-
-                <div class="col-md-3" ng-repeat="x in playlist_builder">
-                    <div class="song-card" id="song-card">
-                        <a ng-href="{{x.redirect}}">
-                            <img id="track image" ng-src="{{x.imageurl}}">
-                            <h3>{{x.name}}</h3>
-                        </a>
-                        <p>{{x.first_artist}}</p>
-                    </div>
-                </div>
-            </div>
-
-        </div>
 
 
     <h3>YOUR SONGS - <a class="togglesongs" onclick="toggleYourSongs('yoursongs', 'songs-button')"><i class="fa fa-2x fa-chevron-down toggle-button" id="songs-button"></i></a></h3>
