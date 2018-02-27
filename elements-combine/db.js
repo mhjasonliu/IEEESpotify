@@ -35,7 +35,12 @@ var addNewEntry = function(newusername,newuserID) {
     return newEntry;
 }
 
-var word_ignore = ["","the", "it", "is", "we", "all", "a", "an", "by", "to", "you", "me", "he", "she", "they", "we", "how", "it", "i", "are", "to", "for", "of", "in"];
+var word_ignore = ["","the", "it", "is", "we", "all", "a", "an",
+    "by", "to", "you", "me", "he", "she", "they", "we", "how",
+    "it", "i", "are", "to", "for", "of", "in", 'my', "our",
+    "on", "with", "song", "this", "and", "can", "showed", "songs",
+    "but", "what", "yet", "where", "just", "some", "no", "can"
+];
 
 function getWordsArray(listOfTracks){
     var len = listOfTracks.length;
