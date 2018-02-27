@@ -19,7 +19,7 @@
             </word-cloud>
     </div>
 
-    <input type="text" ng-model="wordQuery" class="search-songs" placeholder="Search through your previous notes">
+    <input type="text" ng-model="wordQuery" class="search-songs" ng-keyup="$event.keyCode == 13 && searchForWord(wordQuery)" placeholder="Search through your previous notes">
     <div ng-click="searchForWord(wordQuery)" class="search-button">
         <i class="fa fa-arrow-circle-o-right"></i>
     </div>
