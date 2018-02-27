@@ -1,5 +1,5 @@
 <header>
-    <a href="#!/view2" class="ml4">Web App Name</a>
+    <a href="#!/view2" class="ml4">cadenza</a>
 </header>
 
 <div ng-app="frontApp.view2" ng-controller="AppController as appCtrl" id="home">
@@ -20,7 +20,9 @@
     </div>
 
     <input type="text" ng-model="wordQuery" class="search-songs" placeholder="Search through your previous notes">
-    <button ng-click="searchForWord(wordQuery)" class="search-button">SEARCH</button>
+    <div ng-click="searchForWord(wordQuery)" class="search-button">
+        <i class="fa fa-arrow-circle-o-right"></i>
+    </div>
 <!--
     <iframe id='myplayer' src='https://open.spotify.com/embed?uri=spotify:track:5SE57ljOIUJ1ybL9U6CuBH' frameborder='0' allowtransparency='true'></iframe>
     <br/>
@@ -29,6 +31,7 @@
 
     <h3>YOUR SONGS - <a class="togglesongs" onclick="toggleYourSongs('yoursongs', 'songs-button')"><i class="fa fa-2x fa-chevron-down toggle-button" id="songs-button"></i></a></h3>
     <div class="container" id="yoursongs">
+        <p ng-if="!emptyQuery">Your songs with {{searchMessage}}</p>
         <div class="row">
             <div class="col-md-3" ng-repeat="x in track_data" ng-if="!x.isHidden">
                 <div class="song-card" id="song-card">

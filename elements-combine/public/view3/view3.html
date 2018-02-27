@@ -1,7 +1,7 @@
 <header>
     <a href="#!/view2">
         <i class="fa fa-arrow-left mr3"></i>
-        Web App Name</a>
+        cadenza</a>
 </header>
 
 <div>
@@ -25,7 +25,7 @@
     <button ng-click ="removeTrack()" class="remove-button song-note-button ">Clear Track Notes</button>
     <div class="col-md-12">
         <div class="comment-card">
-            <textarea id="song-text-box" ng-model="newWord" placeholder="put your comments here..." rows="4"></textarea>
+            <textarea id="song-text-box" ng-model="newWord" placeholder="put your comments here..." rows="4" maxlength="1000"></textarea>
             <button class="song-note-button" ng-click="setNewWord(newWord)">Submit</button>
             <h2><i>You said...</i></h2>
             <span ng-repeat= "x in current_track_strings">

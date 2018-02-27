@@ -4,6 +4,7 @@ html, body{
     overflow-x: hidden;
 }
 
+
 body[title]{
     z-index:999999;
     position:absolute;
@@ -59,7 +60,11 @@ a, a:hover, a:active, a:visited, a:focus {
 
 #login h1{
     font-weight: 700;
-    font-size:36px;
+    font-size:96px;
+    font-family: 'Leckerli One', cursive;
+    color: #139e8c;
+    letter-spacing:4.5px;
+    margin-bottom:5px;
 }
 
 #login h3{
@@ -75,16 +80,22 @@ header{
     box-shadow: 4px 4px 10px rgba(0,0,0,.2);
     line-height: 40px;
     padding: 15px;
+    font-family: 'Leckerli One', cursive;
 }
 
 header a{
     color: #fff;
-    font-size: 24px;
+    font-size: 30px;
     font-weight:700;
+    letter-spacing:1px;
+}
+
+header a:hover{
+    color:#fff;
 }
 
 #home h1{
-    margin-top:80px;
+    margin-top:65px;
     letter-spacing: -1px;
     font-size:48px;
 }
@@ -291,6 +302,8 @@ header a{
 }
 
 .togglesongs{
+    position:relative;
+    z-index:99;
     float:right;
     margin-right:40px;
     margin-top:-8px;
@@ -316,7 +329,7 @@ footer a{
 }
 
 .search-songs{
-    width:100%;
+    width:40%;
     border:0;
     border-radius:40px;
     height:45px;
@@ -336,19 +349,28 @@ footer a{
 }
 
 .search-button{
-    float:right;
-    margin-right:10px;
-    background: rgba(19, 158, 140, 1);
-    position:relative;
+    position:absolute;
     z-index:10;
-    padding:10px 20px;
+    padding:10px;
     border:0;
-    height:30px;
-    border-radius: 30px;
-    margin-top:-52px;
+    height:65px;
+    margin-top:-32px;
+    width:35px;
+    margin-left:-50px;
+    color:#139E8C;
     line-height:5px;
-    color:#fff;
+    font-size: 35px;
+    background:transparent;
     font-family: "Karla", sans-serif;
+    display:inline-block;
+}
+
+.search-button i{
+    margin-top:15px;
+}
+
+.search-button i:hover{
+    cursor: pointer;
 }
 
 .search-button:focus{
@@ -368,6 +390,7 @@ footer a{
     background:#139E8C;
     border:0;
     padding:10px 100px;
+    font-weight:bold;
     letter-spacing: 3px;
     text-transform: uppercase;
     margin: 30px auto;
