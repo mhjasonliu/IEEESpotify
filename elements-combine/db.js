@@ -35,6 +35,8 @@ var addNewEntry = function(newusername,newuserID) {
     return newEntry;
 }
 
+var word_ignore = ["","the", "it", "is", "we", "all", "a", "an", "by", "to", "you", "me", "he", "she", "they", "we", "how", "it", "i", "are", "to", "for", "of", "in"];
+
 function getWordsArray(listOfTracks){
     var len = listOfTracks.length;
     var wordsArray = [];
@@ -47,9 +49,12 @@ function getWordsArray(listOfTracks){
         }
     }
     wordsArray = text.split(/\s+/g);
+    wordsArray = wordsArray.filter(function(e){
+        return word_ignore.indexOf(e) ==  -1;});
     //console.log(wordsArray);
     return wordsArray;
 }
+
 
 function getWordsMap(wordsArray){
     var wordsMap = {};
