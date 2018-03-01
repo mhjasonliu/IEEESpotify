@@ -29,9 +29,12 @@
             <button class="song-note-button" ng-click="setNewWord(newWord)">Submit</button>
             <h2><i>You said...</i></h2>
             <span ng-repeat= "x in current_track_strings">
-                <p>{{x}}  <i class="fa fa-times-circle-o delete" ng-click="removeWord(x)"></i> <br/>
-                    {{current_track_metadata[$index]}}
+                <p>{{x}}   <br/>
                 </p>
+                <div class="metadata">           
+                    {{current_track_metadata[$index]}}
+                    <i class="fa fa-times-circle-o delete" ng-click="removeWord(x)"></i>
+                </div>
             </span>
 
         </div>

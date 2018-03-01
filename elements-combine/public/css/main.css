@@ -384,6 +384,16 @@ footer a{
 
 .delete{
     float:right;
+    margin-top:3px;
+    border-radius:100%;
+    transition: .1s ease;
+}
+
+.delete:hover{
+    cursor: pointer;
+    box-shadow:0px 0px 7px #fff;
+    
+    
 }
 
 .more-button{
@@ -400,3 +410,11 @@ footer a{
     font-family: 'Karla', sans-serif;
 }
 
+
+.metadata{
+    background: #139e8c;
+    color:#fff;
+    display:block;
+    padding:10px;
+    margin-top:-10px;
+}
