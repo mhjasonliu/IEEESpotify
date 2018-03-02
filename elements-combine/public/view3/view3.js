@@ -37,7 +37,7 @@ angular.module('frontApp.view3', ['ngRoute'])
 
         function findTrackData(){
             var trackUri = param.trackuri;
-            console.log(trackUri);
+            //console.log(trackUri);
             var url = "https://api.spotify.com/v1/tracks/" + trackUri.substring("spotify:track:".length);
 
             var track_config= {
@@ -47,12 +47,12 @@ angular.module('frontApp.view3', ['ngRoute'])
             };
 
             $http.get(url,track_config).then(function(response){
-                console.log(response.data);
+                //console.log(response.data);
                 $scope.current_track = response.data;
                 $scope.current_track_image_url = response.data.album.images[0].url;
                 $scope.current_track_embedded = "https://open.spotify.com/embed?uri="+$scope.current_track.uri+"&theme=white";
             },function(error){
-                console.log("error occured:" +error);
+                //console.log("error occured:" +error);
             });
             //get the current track's strings. These should be from the binding in the local storage
             var stringinfo = getTrackStrings();
@@ -81,8 +81,8 @@ angular.module('frontApp.view3', ['ngRoute'])
             if(!newString)
                 return;
             $('#song-text-box').val('');
-            console.log("Submitting new word: " + newString);
-            console.log("requesting to add new word from front end to back end");
+            //console.log("Submitting new word: " + newString);
+            //console.log("requesting to add new word from front end to back end");
             var data = {
                 username: $scope.display_name,
                 userID: $scope.userid,
@@ -95,14 +95,16 @@ angular.module('frontApp.view3', ['ngRoute'])
                 .then(function success(response){
                     $scope.tracks=response.data.trackList;
                     $scope.current_track_strings.push(newString);
-                    $scope.current_track_metadata.push(response.data.current_time);
+                    //$scope.current_track_metadata.push(response.data.current_time);
+                    var right_now = (new Date(response.data.current_time));
+                    $scope.current_track_metadata.push(right_now.toLocaleTimeString()+", " + right_now.toLocaleDateString());
                 },function error(response){
-                    console.log("error occurred in associating word");
+                    //console.log("error occurred in associating word");
                 });
         };
 
         $scope.removeTrack = function() {
-            console.log("Removing current track from database");
+            //console.log("Removing current track from database");
             var data = {
                 username: $scope.display_name,
                 userID: $scope.userid,
@@ -113,18 +115,18 @@ angular.module('frontApp.view3', ['ngRoute'])
 
             $http.post('/remove_track',data,config)
                 .then(function success(response){
-                    console.log("track removal successful");
+                    //console.log("track removal successful");
                     $scope.tracks=response.data.trackList;
                     window.location.href= '#!/view2';
 
                 },function error(response){
-                    console.log("error occurred in removing track");
+                    //console.log("error occurred in removing track");
                 });
 
         };
 
         $scope.removeWord = function(current_word){
-            console.log("Removing string from current track in database");
+            //console.log("Removing string from current track in database");
 
             var data = {
                 username: $scope.display_name,
@@ -137,14 +139,14 @@ angular.module('frontApp.view3', ['ngRoute'])
 
             $http.post('/remove_word',data,config)
                 .then(function success(response){
-                    console.log("word removal successful");
+                    //console.log("word removal successful");
                     $scope.tracks = response.data.trackList;
                     var stringinfo = getTrackStrings();
                     $scope.current_track_strings = stringinfo.listOfStrings;
                     $scope.current_track_metadata = stringinfo.metaData;
                     },
                     function error(response){
-                    console.log("error occured in removing word");
+                    //console.log("error occured in removing word");
                     });
 
         };

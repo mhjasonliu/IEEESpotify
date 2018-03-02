@@ -24,7 +24,7 @@ angular.module('frontApp',['ngRoute',
             templateUrl: 'view4/view4.html',
             controller: 'View4Ctrl'
         }).otherwise({redirectTo: '/view1'});
-        console.log("finished config");
+        //console.log("finished config");
     }])
     .controller('mainCtrl',['$scope','localStorageService',function($scope,localStorageService){
 

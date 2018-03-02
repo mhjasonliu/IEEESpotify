@@ -107,7 +107,7 @@ app.get('/callback', function(req, res) {
 
         // use the access token to access the Spotify Web API
         request.get(options, function(error, response, body) {
-          console.log(body);
+          //console.log(body);
         });
 
         // we can also pass the token to the browser to make requests from there
@@ -130,7 +130,7 @@ app.get('/refresh_token', function(req, res) {
 
   // requesting access token from refresh token
   var refresh_token = req.query.refresh_token;
-  console.log("Getting refresh token");
+  //console.log("Getting refresh token");
   var authOptions = {
     url: 'https://accounts.spotify.com/api/token',
     headers: { 'Authorization': 'Basic ' + (new Buffer(client_id + ':' + client_secret).toString('base64')) },
@@ -162,10 +162,10 @@ ie3database.setup(app); //set up database functionality
 var db = mongoose.connection;
 db.on('error', console.error.bind(console,'connection error:'));
 db.once('open', function() {
-    console.log('database connection successful ');
+    //console.log('database connection successful ');
 });
 
 
 
-console.log('Listening on 8888');
+//console.log('Listening on 8888');
 app.listen(8888);

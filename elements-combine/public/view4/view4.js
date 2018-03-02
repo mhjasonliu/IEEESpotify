@@ -40,7 +40,7 @@ angular.module('frontApp.view4', ['ngRoute'])
             };
 
             $http.get(url,track_config).then(function(response){
-                console.log(response.data);
+                //console.log(response.data);
                 $scope.current_playlist = response.data;
 
                 $scope.current_playlist_tracks = $scope.current_playlist.tracks.items;
@@ -53,7 +53,7 @@ angular.module('frontApp.view4', ['ngRoute'])
 
                 }
             },function(error){
-                console.log("error occured:" +error);
+                //console.log("error occured:" +error);
             });
             //get the current track's strings. These should be from the binding in the local storage
         }
@@ -69,8 +69,8 @@ angular.module('frontApp.view4', ['ngRoute'])
         $scope.setNewWord = function(newString,currentTrack){
             if(!newString)
                 return;
-            console.log("Submitting new word: " + newString);
-            console.log("requesting to add new word from front end to back end");
+            //console.log("Submitting new word: " + newString);
+            //console.log("requesting to add new word from front end to back end");
             var data = {
                 username: $scope.display_name,
                 userID: $scope.userid,
@@ -83,12 +83,12 @@ angular.module('frontApp.view4', ['ngRoute'])
                 .then(function success(response){
                     $scope.tracks=response.data.trackList;
                 },function error(response){
-                    console.log("error occurred in associating word");
+                    //console.log("error occurred in associating word");
                 });
         };
 
         $scope.addTrack=function(newTrack){
-            console.log("requesting add_new_track from front end");
+            //console.log("requesting add_new_track from front end");
             var data = {
                 username: $scope.display_name,
                 userID: $scope.userid,
@@ -102,7 +102,7 @@ angular.module('frontApp.view4', ['ngRoute'])
                     $scope.tracks=response.data.trackList;
                     $scope.current_playlist_tracks.find(function(element){return element.track.uri == newTrack;}).color = 'green';
                 },function error(response){
-                    console.log("error occurred in adding track");
+                    //console.log("error occurred in adding track");
                 });
         };
 

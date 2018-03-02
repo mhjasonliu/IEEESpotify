@@ -80,7 +80,7 @@ function getWordsMap(wordsArray){
         }
     });
 
-    console.log(wordsMap);
+    //console.log(wordsMap);
     return wordsMap;
 }
 
@@ -91,18 +91,18 @@ module.exports = {
             var userlogin = req.query.username;
             var userID = req.query.userID;
 
-            console.log("received userlogin info: " + userlogin);
+            //console.log("received userlogin info: " + userlogin);
             DBEntry.find({username: userlogin, userID: userID}, function(err, doc) {
                 if(err) return console.log(err);
                 if(doc.length == 0) {
-                    console.log("user does not currently exist. attempting to create");
+                    //console.log("user does not currently exist. attempting to create");
                     var newEntry = addNewEntry(userlogin,userID);
                     res.send({
                         'trackList' : newEntry.listOfTracks
                     });
                 }
                 else {
-                    console.log("user found");
+                    //console.log("user found");
                     res.send({
                         'trackList' : doc[0].listOfTracks,
                         'wordsMap': doc[0].wordsMap
@@ -119,9 +119,9 @@ module.exports = {
             var userlogin = req.body.username;
             var userID = req.body.userID;
 
-            console.log(req.url);
-            console.log("Attempting to add track");
-            console.log(newTracks,userlogin,userID);
+            //console.log(req.url);
+            //console.log("Attempting to add track");
+            //console.log(newTracks,userlogin,userID);
 
             DBEntry.findOne({username:userlogin, userID: userID},function(err, doc){
                 if(err) return console.log(err);
@@ -148,7 +148,7 @@ module.exports = {
 
                 doc.save(function(err){
                     if(err) return console.log(err);
-                    console.log("update successful");
+                   // console.log("update successful");
                 });
                 res.send({
                     'trackList': doc.listOfTracks,
@@ -161,7 +161,7 @@ module.exports = {
         app.post('/word_cloud', function(req,res){
             var userlogin = req.body.username;
             var userID = req.body.userID;
-            console.log(userlogin);
+            //console.log(userlogin);
             
 
             var text = "";
@@ -184,7 +184,7 @@ module.exports = {
                 }
                 */
 
-                console.log(text);
+                //console.log(text);
 
                 res.send({
                     'wordsMap': doc[0].wordsMap
@@ -201,8 +201,8 @@ module.exports = {
 
             var right_now = new Date();
 
-            console.log("Attempting to associate word");
-            console.log(userlogin,userID,trackuri,new_word);
+            //console.log("Attempting to associate word");
+            //console.log(userlogin,userID,trackuri,new_word);
 
             DBEntry.findOne({username:userlogin, userID: userID},function(err, doc){
                 if(err) return console.log(err);
@@ -242,8 +242,8 @@ module.exports = {
                 doc.save(function(err){
                     if(err)
                         return console.log(err);
-                    else
-                        console.log("update successful");
+                    //else
+                    //    console.log("update successful");
                 });
                 res.send({
                     'trackList': doc.listOfTracks,
@@ -259,8 +259,8 @@ module.exports = {
                 userID = req.body.userID,
                 trackuri = req.body.current_track_uri;
 
-            console.log("Attempting to remove track.");
-            console.log(userlogin,userID,trackuri);
+            //console.log("Attempting to remove track.");
+            //console.log(userlogin,userID,trackuri);
 
             DBEntry.findOne({username:userlogin, userID: userID},function(err, doc){
                 if(err) return console.log(err);
@@ -283,8 +283,8 @@ module.exports = {
                 doc.save(function(err){
                     if(err)
                         return console.log(err);
-                    else
-                        console.log("removal successful");
+                    //else
+                     //   console.log("removal successful");
                 });
                 res.send({
                     'trackList': doc.listOfTracks,
@@ -300,8 +300,8 @@ module.exports = {
                 trackuri = req.body.current_track_uri,
                 current_word = req.body.current_word;
 
-            console.log("Attempting to remove word from a track");
-            console.log(userlogin,userID,trackuri,current_word);
+            //console.log("Attempting to remove word from a track");
+            //console.log(userlogin,userID,trackuri,current_word);
 
             DBEntry.findOne({username:userlogin,userID:userID},function(err, doc){
                 if(err) return console.log(err);
@@ -329,8 +329,8 @@ module.exports = {
                 doc.save(function(err){
                     if(err)
                         return console.log(err);
-                    else
-                        console.log("removal successful");
+                    //else
+                    //    console.log("removal successful");
                 });
                 res.send({
                     'trackList': doc.listOfTracks,
