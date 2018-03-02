@@ -19,6 +19,7 @@ angular.module('frontApp.view2', ['ngRoute', 'angular-d3-word-cloud'])
         $scope.playlist_builder = [];
         $scope.all_playlist_data = [];
         $scope.offset = 0;
+        $scope.more_playlists_button = true;
         if ($scope.access_token) {
             localStorageService.set('access_token', $scope.access_token);
             localStorageService.set('refresh_token', $scope.refresh_token);
@@ -208,7 +209,11 @@ angular.module('frontApp.view2', ['ngRoute', 'angular-d3-word-cloud'])
 
             $http.get(url, config).then(function (response) {
                 var playlists = response.data;
+                var prev_length = $scope.all_playlist_data.length;
                 $scope.all_playlist_data=$scope.all_playlist_data.concat(playlists.items);
+                if(prev_length == $scope.all_playlist_data.length){
+                    $scope.more_playlists_button = false;
+                }
                 $scope.all_playlist_data.forEach(function(element)
                 {
                     if (element.name.length > 18){
@@ -225,8 +230,14 @@ angular.module('frontApp.view2', ['ngRoute', 'angular-d3-word-cloud'])
         };
 
         $scope.searchForWord = function(word){
-            $scope.emptyQuery = word === "";
-            $scope.searchMessage = word;
+            $scope.emptyQuery = word == "";
+            console.log(word);
+            if(!$scope.emptyQuery){
+                $scope.searchMessage = "Song contains: " + word;
+            }
+            else{
+                $scope.searchMessage = "";
+            }
             $scope.track_data.forEach(function(track_data_element){
                var particular_track = $scope.tracks.find(function(elt){
                    return track_data_element.uri === elt.track.uri;

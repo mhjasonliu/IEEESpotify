@@ -31,7 +31,7 @@
 
     <h3>YOUR SONGS - <a class="togglesongs" onclick="toggleYourSongs('yoursongs', 'songs-button')"><i class="fa fa-2x fa-chevron-down toggle-button" id="songs-button"></i></a></h3>
     <div class="container" id="yoursongs">
-        <p ng-if="!emptyQuery">Your songs with {{searchMessage}}</p>
+        <p class="contains">{{searchMessage}}</p>
         <div class="row">
             <div class="col-md-3" ng-repeat="x in track_data" ng-if="!x.isHidden">
                 <div class="song-card" id="song-card">
@@ -60,8 +60,9 @@
                 </div>
             </div>
         </div>
-        <div style="text-align:center">
-            <button ng-click="getUserPlaylists()" class="more-button">+ Get More Of Your Playlists</button>
+        <div style="text-align:center" class="playlists-container">
+            <button ng-click="getUserPlaylists()" id = "more-playlists-button" class="more-button" ng-show="more_playlists_button == true">+ Get More Of Your Playlists</button>
+            <p ng-show="more_playlists_button == false" class="contains">No more playlists to display!</p>
         </div>
     </div>
     
