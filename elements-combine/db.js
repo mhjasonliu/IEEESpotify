@@ -41,7 +41,7 @@ var word_ignore = [
     "i","if","in","into","is","it","its","just","least","let","like","likely","may","me","might","most","must","my","neither","no","nor","not","of","off","often",
     "on","only","or","other","our","own","rather","said","say","says","she","should","since","so","some","than","that","the","their","them","then","there","these",
     "they","this","tis","to","too","twas","us","wants","was","we","were","what","when","where","which","while","who","whom","why","will","with","would","yet","you",
-    "your","t","ve","d","ll","s","d","m", "isn","mightn","shan", "re","wasn","weren"
+    "your","t","ve","d","ll","s","d","m", "isn","mightn","shan", "re","wasn","weren","those","don","fuck","shit","ass","song"
 ];
 
 function getWordsArray(listOfTracks){

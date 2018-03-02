@@ -4,7 +4,7 @@
 
 <div ng-app="frontApp.view2" ng-controller="AppController as appCtrl" id="home">
     <div ng-init="databaseLogin()"></div>
-    <h1 class="b">Hello, {{display_name}}.</h1>
+    <h1 class="b front">Hello, {{display_name}}.</h1>
 <!--
     <p class ="overflow-ellipsis">Your access token:{{access_token}}</p>
     <p class ="overflow-ellipsis">Your refresh token:{{refresh_token}}</p>
@@ -36,7 +36,7 @@
             <div class="col-md-3" ng-repeat="x in track_data" ng-if="!x.isHidden">
                 <div class="song-card" id="song-card">
                     <a ng-href="{{x.redirect}}">
-                        <img id="track image" ng-src="{{x.imageurl}}">
+                        <img id="track image" class="song-img" ng-src="{{x.imageurl}}">
                         <h3>{{x.name}}</h3>
                     </a>
                     <p>{{x.first_artist}}</p>

@@ -49,6 +49,8 @@ angular.module('frontApp.view4', ['ngRoute'])
                         $scope.current_playlist_tracks[i].color = '#139E8C';
                     else
                         $scope.current_playlist_tracks[i].color = '#35bfae';
+                    $scope.current_playlist_tracks[i].redirect = "#!/view3#trackuri="+encodeURI($scope.current_playlist_tracks[i].track.uri);
+
                 }
             },function(error){
                 console.log("error occured:" +error);
