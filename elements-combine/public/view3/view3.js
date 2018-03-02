@@ -57,7 +57,12 @@ angular.module('frontApp.view3', ['ngRoute'])
             //get the current track's strings. These should be from the binding in the local storage
             var stringinfo = getTrackStrings();
             $scope.current_track_strings = stringinfo.listOfStrings;
-            $scope.current_track_metadata = stringinfo.metaData;
+            $scope.current_track_metadata = [];
+            for(var i = 0; i < stringinfo.metaData.length;i++){
+                var right_now = (new Date(stringinfo.metaData[i]));
+                $scope.current_track_metadata.push(right_now.toLocaleTimeString()+", " + right_now.toLocaleDateString());
+            }
+            //$scope.current_track_metadata = stringinfo.metaData;
         }
 
         function getTrackStrings(){
