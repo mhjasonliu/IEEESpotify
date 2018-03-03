@@ -73,6 +73,8 @@ angular.module('frontApp.view3', ['ngRoute'])
             var trackFound = $scope.tracks.find(function(x){
                 return x.track.uri === currentUri;
             });
+            if(!trackFound)
+                return undefined;
             return {
                 listOfStrings: trackFound.listOfStrings,
                 metaData: trackFound.metaData
