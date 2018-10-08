@@ -1,0 +1,25 @@
+{
+  "name": "IEEE spotify",
+  "description": "Basic examples of the Spotify authorization flows through OAuth 2",
+  "main": "app.js",
+  "authors": [
+    "Spotify"
+  ],
+  "license": "MIT",
+  "homepage": "https://github.com/mhjasonliu/IEEESpotify",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "public/bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "angular-route": "^1.6.9",
+    "angular-local-storage": "^0.7.1",
+    "html5-boilerplate": "^6.0.1",
+    "angular-d3-word-cloud": "^0.5.3"
+  }
+}

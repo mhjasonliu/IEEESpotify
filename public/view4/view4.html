@@ -1,0 +1,47 @@
+<header>
+    <a href="#!/view2">
+        <i class="fa fa-arrow-left mr3"></i>
+        cadenza</a>
+</header>
+
+<div>
+<!--
+    <p>Your name: {{display_name}}</p>
+    <p>Your access token: {{access_token}}</p>
+    <p>Your refresh token:{{refresh_token}}</p>
+    <p>Your tracks:{{tracks}}</p>
+-->
+    <div class="backsplash">
+        <img ng-src="{{current_playlist.images[0].url}}">
+    </div>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-5">
+                <div class="playlist-page">
+                    <div class="playlist-page-album">
+                        <img src="{{current_playlist.images[0].url}}">
+                    </div>
+                    <h3>{{current_playlist.name}}</h3>
+                    <p>{{current_playlist_tracks.length}} songs</p>
+                </div>
+            </div>
+            <div class="col-md-12">
+                <div class="comment-card">
+                    <div class="song-header row"> <!-- Ng repeat for all songs -->
+                        <div class="col-md-7" >Title</div>
+                        <div class="col-md-3">Artist</div>
+                        <div class="col-md-2"><i class="fa fa-clock-o"></i></div>
+                    </div>
+                    <div class="song-name row" ng-repeat="x in current_playlist_tracks"> <!-- Ng repeat for all songs -->
+                        <a ng-mousedown="addTrack(x.track.uri)" ng-href="{{x.redirect}}">
+                            <div class="col-md-7" ng-style="{'color': x.color}">{{x.track.name}}</div>
+                        </a>
+                        <div class="col-md-3">{{x.track.artists[0].name}}</div>
+                        <div class="col-md-2">{{x.track.duration_ms | date:'mm:ss'}}</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
