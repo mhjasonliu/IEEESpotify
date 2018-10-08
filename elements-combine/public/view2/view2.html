@@ -1,0 +1,80 @@
+<header>
+    <a href="#!/view2" class="ml4">cadenza</a>
+</header>
+
+<div ng-app="frontApp.view2" ng-controller="AppController as appCtrl" id="home">
+    <div ng-init="databaseLogin()"></div>
+    <h1 class="b front">Hello, {{display_name}}.</h1>
+<!--
+    <p class ="overflow-ellipsis">Your access token:{{access_token}}</p>
+    <p class ="overflow-ellipsis">Your refresh token:{{refresh_token}}</p>
+    <p class ="overflow-ellipsis">Your user id:{{userid}}</p>
+    <p>Add New Track Manually:</p>
+    <input ng-model="newTrack"> <button ng-click="addTrack()">submit track</button>
+    <p>{{form_feedback}}</p>
+-->
+    <div id="wordsCloud">
+            <word-cloud words="appCtrl.words" width="appCtrl.width" height="appCtrl.height" padding="5" rotate="appCtrl.rotate" use-tooltip="appCtrl.useTooltip"
+                random="appCtrl.random" use-transition="appCtrl.useTransition" on-click="appCtrl.wordClicked">
+            </word-cloud>
+    </div>
+
+    <input type="text" ng-model="wordQuery" class="search-songs" ng-keyup="$event.keyCode == 13 && searchForWord(wordQuery)" placeholder="Search through your previous notes">
+    <div ng-click="searchForWord(wordQuery)" class="search-button">
+        <i class="fa fa-arrow-circle-o-right"></i>
+    </div>
+<!--
+    <iframe id='myplayer' src='https://open.spotify.com/embed?uri=spotify:track:5SE57ljOIUJ1ybL9U6CuBH' frameborder='0' allowtransparency='true'></iframe>
+    <br/>
+-->
+
+
+    <h3>YOUR SONGS - <a class="togglesongs" onclick="toggleYourSongs('yoursongs', 'songs-button')"><i class="fa fa-2x fa-chevron-down toggle-button" id="songs-button"></i></a></h3>
+    <div class="container" id="yoursongs">
+        <p class="contains">{{searchMessage}}</p>
+        <div class="row">
+            <div class="col-md-3" ng-repeat="x in track_data" ng-if="!x.isHidden">
+                <div class="song-card" id="song-card">
+                    <a ng-href="{{x.redirect}}">
+                        <img id="track image" class="song-img" ng-src="{{x.imageurl}}">
+                        <h3>{{x.name}}</h3>
+                    </a>
+                    <p>{{x.first_artist}}</p>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <h3>YOUR PLAYLISTS - <a class="togglesongs" onclick="toggleYourSongs('yourplaylists', 'playlist-button')"><i class="fa fa-2x fa-chevron-down toggle-button" id="playlist-button"></i></a></h3>
+    <div class="container" id="yourplaylists">
+        <div class="row">
+
+            <div class="col-md-3" ng-repeat="x in all_playlist_data">
+                <div class="song-card" id="song-card">
+                    <a ng-href="{{x.redirect_uri}}">
+                        <div class="playlist-img" style="background:url({{x.images[0].url}}); background-position:center center; background-size:cover;"></div>
+                    <h3>{{x.name}}</h3>
+                   </a>
+
+                </div>
+            </div>
+        </div>
+        <div style="text-align:center" class="playlists-container">
+            <button ng-click="getUserPlaylists()" id = "more-playlists-button" class="more-button" ng-show="more_playlists_button == true">+ Get More Of Your Playlists</button>
+            <p ng-show="more_playlists_button == false" class="contains">No more playlists to display!</p>
+        </div>
+    </div>
+    
+<!--
+
+    <h3>This is for Debug:</h3>
+    <p ng-repeat='x in tracks'>{{x}}</p>
+-->
+
+</div>
+
+<footer>
+    <span>
+        <i class="fa fa-copyright"></i> 2018 &middot; Made with <i class="fa fa-heart red"></i> by Thomas Li, Jason Liu, & Yingliao Wang as a part of <a href="http://ieee.northwestern.edu/">NU IEEE's IE3 program.</a></span>
+</footer>

@@ -1,0 +1,45 @@
+<header>
+    <a href="#!/view2">
+        <i class="fa fa-arrow-left mr3"></i>
+        cadenza</a>
+</header>
+
+<div>
+<!--
+    <p>Your name: {{display_name}}</p>
+<p>Your access token: {{access_token}}</p>
+<p>Your refresh token:{{refresh_token}}</p>
+<p>Your tracks:{{tracks}}</p>
+-->
+<div class="backsplash">
+    <img ng-src="{{current_track_image_url}}">
+</div>
+<div class="container">
+<div class="row">
+    <div class="col-md-5">
+        <div class="song-card song-page">
+            <iframe id = 'myplayer' ng-src="{{trustSrc(current_track_embedded)}}"
+                    frameborder='0' allowtransparency='true' width="102%" height ="250" class="song-player"></iframe>
+        </div>
+    </div>
+    <button ng-click ="removeTrack()" class="remove-button song-note-button ">Remove All</button>
+    <div class="col-md-12">
+        <div class="comment-card">
+            <textarea id="song-text-box" ng-model="newWord" placeholder="put your comments here..." rows="4" maxlength="1000"></textarea>
+            <button class="song-note-button" ng-click="setNewWord(newWord)">Submit</button>
+            <h2><i>You said...</i></h2>
+            <span ng-repeat= "x in current_track_strings">
+                <p>{{x}}   <br/>
+                </p>
+                <div class="metadata">           
+                    {{current_track_metadata[$index]}}
+                    <i class="fa fa-times-circle-o delete" ng-click="removeWord(x)"></i>
+                </div>
+            </span>
+
+        </div>
+    </div>
+</div>
+
+</div>
+</div>
